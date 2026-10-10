@@ -1,18 +1,7 @@
 package sv.gob.salud.CitasService.modelos.excepciones;
 
-public class CitaNoDisponibleException {
-    private String mensaje;
-
+public class CitaNoDisponibleException extends CitaExcepcion {
     public CitaNoDisponibleException(String mensaje) {
-        this.mensaje = mensaje;
+        super(mensaje);
     }
-
-    public String getMensaje() {
-        return mensaje;
-    }
-
-    public void setMensaje(String mensaje) {
-        this.mensaje = mensaje;
-    }
-
 }

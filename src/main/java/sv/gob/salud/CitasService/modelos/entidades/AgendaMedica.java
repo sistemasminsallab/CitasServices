@@ -1,49 +1,16 @@
 package sv.gob.salud.CitasService.modelos.entidades;
 
+import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
 
 public class AgendaMedica {
-    private String fecha;
-    private String hora;
-    private String medico;
-    private String especialidad;
-
-    public AgendaMedica(String fecha, String hora, String medico, String especialidad) {
-        this.fecha = fecha;
-        this.hora = hora;
-        this.medico = medico;
-        this.especialidad = especialidad;
-    }
-
-    // Getters and Setters
-    public String getFecha() {
-        return fecha;
-    }
-
-    public void setFecha(String fecha) {
-        this.fecha = fecha;
-    }
-
-    public String getHora() {
-        return hora;
-    }
-
-    public void setHora(String hora) {
-        this.hora = hora;
-    }
-
-    public String getMedico() {
-        return medico;
-    }
-
-    public void setMedico(String medico) {
-        this.medico = medico;
-    }
-
-    public String getEspecialidad() {
-        return especialidad;
-    }
-
-    public void setEspecialidad(String especialidad) {
-        this.especialidad = especialidad;
-    }
+    private Long id;
+    private Empleado medico;
+    private Especialidad especialidad;
+    private LocalDate fecha;
+    private RangoHorario rangoHorario;
+    private int cupoMaximo;
+    private boolean activa = true;
+    private Set<Cita> citas = new HashSet<>();
 }
