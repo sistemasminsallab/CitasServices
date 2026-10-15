@@ -1,10 +1,23 @@
 package sv.gob.salud.CitasService.modelos.entidades;
 
+import sv.gob.salud.CitasService.modelos.enums.EstadoCita;
+import sv.gob.salud.CitasService.modelos.enums.Prioridad;
+import sv.gob.salud.CitasService.modelos.enums.TipoCita;
+
+import java.time.LocalDate;
+import java.time.LocalTime;
+
 public class CitaPresencial extends Cita {
-    private Long id;
     private String consultorio;
     private Establecimiento establecimiento;
     private String indicaciones;
+
+    public CitaPresencial(Long id, AgendaMedica agendaMedica, Expediente expediente, int orden, EstadoCita estadoCita, Prioridad prioridad, TipoCita tipo, Cita citaOrigen, LocalDate fechaCita, LocalTime horaInicio, LocalTime horaFin,  String consultorio, Establecimiento establecimiento, String indicaciones){
+        super(id, agendaMedica, expediente, orden, estadoCita, prioridad, tipo, citaOrigen, fechaCita, horaInicio, horaFin);
+        setConsultorio(consultorio);
+        setEstablecimiento(establecimiento);
+        setIndicaciones(indicaciones);
+    }
     
     public String getConsultorio() {
         return consultorio;
