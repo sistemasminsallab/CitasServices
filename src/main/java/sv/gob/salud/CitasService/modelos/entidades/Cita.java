@@ -7,7 +7,7 @@ import sv.gob.salud.CitasService.modelos.enums.Modalidad;
 import sv.gob.salud.CitasService.modelos.enums.Prioridad;
 import sv.gob.salud.CitasService.modelos.enums.TipoCita;
 
-public class Cita {
+public abstract class Cita {
 
     private Long id;
     private AgendaMedica agendaMedica;
@@ -130,13 +130,8 @@ public class Cita {
         if (!inicio.isBefore(fin)) { 
             throw new IllegalArgumentException( "La hora de inicio debe ser anterior a la hora final"); } 
     }
-/*
-    public Modalidad modalidad() {
-        throw new UnsupportedOperationException("Unimplemented method 'modalidad'");
-    }
 
-    public String detalleLugar() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'detalleLugar'");
-    }*/
+    public abstract Modalidad modalidad();
+
+    public abstract String detalleLugar();
 }
