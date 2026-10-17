@@ -17,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class ModeloSmokeTest {
 
     private Paciente paciente(String dui, LocalDate nacimiento) {
-        return new Paciente(dui, "Luis", "Pérez", Genero.MASCULINO, nacimiento, "7000-0000", null, "...");
+        return new Paciente(dui, "Luis", "Pérez", Genero.MASCULINO, nacimiento, "7000-0000", null, "1234-24");
     }
 
     private CitaDomiciliaria visita(String direccion, String referencia) {
