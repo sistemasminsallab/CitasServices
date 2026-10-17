@@ -39,14 +39,7 @@ public class CitaVirtual extends Cita {
         }
         return "No se ha asignado un enlace de cita virtual";
     }
-
-    @Override
-    public Modalidad modalidad() {
-        return Modalidad.VIRTUAL;
-    }
-
-    @Override
-    public String detalleLugar() {
-        return enlaceDeCitaVirtual();
-    }
+// CitaVirtual
+@Override public Modalidad modalidad()   { return Modalidad.VIRTUAL; }
+@Override public String detalleLugar()   { return enlaceDeCitaVirtual(); }
 }

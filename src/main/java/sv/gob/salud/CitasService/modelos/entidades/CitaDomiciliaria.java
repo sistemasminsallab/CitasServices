@@ -80,14 +80,6 @@ public class CitaDomiciliaria extends Cita {
         return "Dirección: " + direccionVisita
                 + "\nReferencia: " + (tieneReferenciaUbicacion() ? referenciaUbicacion : "No especificada");
     }
-
-    @Override
-    public Modalidad modalidad() {
-        return Modalidad.DOMICILIARIA;
-    }
-
-    @Override
-    public String detalleLugar() {
-        return obtenerUbicacionCompleta();
-    }
+@Override public Modalidad modalidad()   { return Modalidad.DOMICILIARIA; }
+@Override public String detalleLugar()   { return obtenerUbicacionCompleta(); }
 }

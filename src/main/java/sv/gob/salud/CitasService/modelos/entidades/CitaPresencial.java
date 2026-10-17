@@ -65,15 +65,9 @@ public class CitaPresencial extends Cita {
     }
 
     
-    @Override
-    public Modalidad modalidad() {
-        return null;
-    }
+   @Override public Modalidad modalidad()   { return Modalidad.PRESENCIAL; }
+@Override public String detalleLugar()   { return obtenerInformacionDeCitaPresencial(); }
 
-    @Override
-    public String detalleLugar() {
-        return null;
-    }
 
 
 }
