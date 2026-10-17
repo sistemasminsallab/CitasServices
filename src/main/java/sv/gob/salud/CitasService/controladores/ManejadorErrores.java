@@ -4,6 +4,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import sv.gob.salud.CitasService.modelos.excepciones.CitaNoDisponibleException;
 import sv.gob.salud.CitasService.modelos.excepciones.CitaNoEncontradaException;
 
 import java.util.Map;
@@ -18,9 +19,9 @@ public class ManejadorErrores {
         return Map.of("error", e.getMessage());
     }
 
-    @ExceptionHandler(CitaNoEncontradaException.class)
+    @ExceptionHandler(CitaNoDisponibleException.class)
     @ResponseStatus(HttpStatus.CONFLICT)
-    public Map<String, String> citaNoDisponible(CitaNoEncontradaException e) {
+    public Map<String, String> citaNoDisponible(CitaNoDisponibleException e) {
         return Map.of("error", e.getMessage());
     }
 
