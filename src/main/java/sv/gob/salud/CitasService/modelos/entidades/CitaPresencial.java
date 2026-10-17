@@ -68,7 +68,7 @@ public class CitaPresencial extends Cita {
 
     @Override
     public String detalleLugar() {
-        return "";
+        return obtenerInformacionDeCitaPresencial();
     }
 }
 
