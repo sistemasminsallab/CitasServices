@@ -13,46 +13,47 @@ import org.junit.jupiter.api.Test;
 import sv.gob.salud.CitasService.modelos.entidades.CitaDomiciliaria;
 import sv.gob.salud.CitasService.modelos.entidades.Paciente;
 import sv.gob.salud.CitasService.modelos.enums.EstadoCita;
+import sv.gob.salud.CitasService.modelos.enums.Genero;
 import sv.gob.salud.CitasService.modelos.enums.Prioridad;
 import sv.gob.salud.CitasService.modelos.enums.TipoCita;
 import sv.gob.salud.CitasService.modelos.excepciones.DatosPersonaInvalidosException;
 
 /**
-* Red de seguridad del refactor: fija el comportamiento actual.
-* Debe pasar igual al terminar cada fase (cambiar la estructura, no el comportamiento).
-*/
+ * Red de seguridad del refactor: fija el comportamiento actual.
+ * Debe pasar igual al terminar cada fase (cambiar la estructura, no el comportamiento).
+ */
 class ModeloSmokeTest {
- 
+
     private Paciente paciente(String dui, LocalDate nacimiento) {
-        return new Paciente(dui, "Luis", "Perez", Genero.MASCULINO, nacimiento, "7000-0000", null, "1234-24");
+        return new Paciente(dui, "Luis", "Pérez", Genero.MASCULINO, nacimiento, "7000-0000", null, "1234-24");
     }
- 
+
     private CitaDomiciliaria visita(String direccion, String referencia) {
         return new CitaDomiciliaria(1L, null, null, 1, EstadoCita.PROGRAMADA, Prioridad.NORMAL,
                 TipoCita.PRIMERA_VEZ, null, LocalDate.now().plusDays(1),
                 LocalTime.of(8, 0), LocalTime.of(9, 0), direccion, referencia);
     }
- 
-    @Test 
+
+    @Test
     void duiValidoSeAcepta() {
         assertEquals("00000001-8", paciente("00000001-8", LocalDate.of(1990, 1, 1)).getDocumentoIdentidad());
     }
- 
+
     @Test
     void duiInvalidoSeRechaza() {
         assertThrows(DatosPersonaInvalidosException.class, () -> paciente("00000001-9", LocalDate.of(1990, 1, 1)));
     }
- 
+
     @Test
     void edadSeCalculaEnAnios() {
         assertEquals(30, paciente("00000001-8", LocalDate.now().minusYears(30)).edad());
     }
- 
+
     @Test
     void contactoRegistradoSoloSiHayTelefonoOCorreo() {
         assertTrue(paciente("00000001-8", LocalDate.of(1990, 1, 1)).tieneContactoRegistrado());
     }
- 
+
     @Test
     void ubicacionDomiciliariaConYSinReferencia() {
         assertEquals("Col. Escalón - Referencia: casa azul", visita("Col. Escalón", "casa azul").obtenerUbicacionCompleta());
@@ -64,7 +65,7 @@ class ModeloSmokeTest {
     void direccionObligatoriaEnVisita() {
         assertThrows(IllegalArgumentException.class, () -> visita(" ", null));
     }
- 
+
     @Test
     void citaCanceladaNoSePuedeReprogramar() {
         CitaDomiciliaria cita = visita("Col. Escalón", null);
