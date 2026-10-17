@@ -1,12 +1,12 @@
 package sv.gob.salud.CitasService.modelos.entidades;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
+
 import sv.gob.salud.CitasService.modelos.enums.EstadoCita;
 import sv.gob.salud.CitasService.modelos.enums.Modalidad;
 import sv.gob.salud.CitasService.modelos.enums.Prioridad;
 import sv.gob.salud.CitasService.modelos.enums.TipoCita;
-
-import java.time.LocalDate;
-import java.time.LocalTime;
 
 public class CitaPresencial extends Cita {
     private String consultorio;
@@ -61,15 +61,8 @@ public class CitaPresencial extends Cita {
         }
     }
 
-    @Override
-    public Modalidad modalidad() {
-        return null;
-    }
- 
-    @Override
-    public String detalleLugar() {
-        return null;
-    }
+    @Override public Modalidad modalidad()   { return Modalidad.PRESENCIAL; }
+    @Override public String detalleLugar()   { return obtenerInformacionDeCitaPresencial(); }  
 
 
 }
