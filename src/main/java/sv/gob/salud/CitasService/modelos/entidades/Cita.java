@@ -100,6 +100,19 @@ public abstract class Cita {
     }
 
     //metodos
+
+    /** Experto: la cita tiene fecha y horas, así que ella decide si choca con otra. */
+    public boolean seSolapaCon(Cita otra) {
+        if (otra == null || estaCancelada() || otra.estaCancelada() || !fechaCita.equals(otra.fechaCita)) {
+            return false;
+        }
+        return horaInicio.isBefore(otra.horaFin) && otra.horaInicio.isBefore(horaFin);
+    }
+
+    public boolean estaCancelada() {
+        return estadoCita == EstadoCita.CANCELADA;
+    }
+
     public void cambiarEstadoCita(EstadoCita estadoCita){
         if (estadoCita == null) { 
             throw new IllegalArgumentException( "El estado de la cita no puede ser nulo"); 
@@ -110,8 +123,8 @@ public abstract class Cita {
 
     public void reprogramarCita(LocalDate fechaCita, LocalTime horaInicio, LocalTime horaFin ){
 
-        if (estadoCita == EstadoCita.CANCELADA) { 
-            throw new IllegalStateException( "No se puede reprogramar una cita cancelada"); 
+        if (estaCancelada()) {
+            throw new IllegalStateException( "No se puede reprogramar una cita cancelada");
         }
 
         validarHorario(fechaCita, horaInicio, horaFin);
