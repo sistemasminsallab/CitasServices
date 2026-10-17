@@ -3,8 +3,8 @@ package sv.gob.salud.CitasService.modelos.entidades;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import sv.gob.salud.CitasService.modelos.enums.EstadoEstablecimiento;
-import sv.gob.salud.CitasService.modelos.enums.TipoEstablecimiento;
+// import sv.gob.salud.CitasService.modelos.enums.EstadoEstablecimiento;
+// import sv.gob.salud.CitasService.modelos.enums.TipoEstablecimiento;
 
 public class Establecimiento {
     // private Long id;
@@ -19,6 +19,13 @@ public class Establecimiento {
 
     private LocalDateTime inicioAtencion;
     private LocalDateTime finAtencion;
+
+    public Establecimiento(Long id, String codigo, String nombre, String direccion) {
+        // this.id = id;
+        this.codigo = codigo;
+        this.nombre = nombre;
+        this.direccion = direccion;
+    }
 
     public String getNombre() {
         return nombre;
