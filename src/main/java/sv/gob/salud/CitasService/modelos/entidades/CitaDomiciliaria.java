@@ -90,4 +90,7 @@ public class CitaDomiciliaria extends Cita {
     public String detalleLugar() {
         return obtenerUbicacionCompleta();
     }
+
+    @Override public Modalidad modalidad()   { return Modalidad.DOMICILIARIA; }
+    @Override public String detalleLugar()   { return obtenerUbicacionCompleta(); }
 }

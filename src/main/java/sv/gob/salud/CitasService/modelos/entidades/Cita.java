@@ -146,4 +146,7 @@ public abstract class Cita {
     public boolean estaCancelada() {
         return estadoCita == EstadoCita.CANCELADA;
     }
+
+    
+    
 }
