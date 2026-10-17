@@ -1,13 +1,22 @@
 package sv.gob.salud.CitasService.modelos.entidades;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Set;
+
+import sv.gob.salud.CitasService.modelos.enums.Genero;
 
 public class Empleado extends Persona {
     private String jvpm;
     private Set<Especialidad> especialidades;
     private List<AgendaMedica> agendasMedicas;
     private String descripcion;
+
+    public Empleado(String documentoidentidad, String nombre, String apellido, Genero genero, LocalDate fechaNacimiento, String numeroTelefono, String correoElectronico, String jvpm, String descripcion){
+        super(documentoidentidad, nombre, apellido, genero, fechaNacimiento, numeroTelefono, correoElectronico);
+        this.jvpm = jvpm;
+        this.descripcion = descripcion;
+    }
 
 
     public String getJvpm() {

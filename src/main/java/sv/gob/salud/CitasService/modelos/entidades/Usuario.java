@@ -1,7 +1,9 @@
 package sv.gob.salud.CitasService.modelos.entidades;
 
+import java.time.LocalDate;
 import java.util.Objects;
 
+import sv.gob.salud.CitasService.modelos.enums.Genero;
 import sv.gob.salud.CitasService.modelos.enums.Roles;
 
 public class Usuario extends Persona {
@@ -11,11 +13,14 @@ public class Usuario extends Persona {
     private String contrasena;
 
     // * Constructores
-    public Usuario() {}
+    // public Usuario() {}
 
-    public Usuario(String nombreUsuario, Roles rol, boolean activo) {
-        this.nombreUsuario = Objects.requireNonNull(nombreUsuario, "El nombre de usuario no puede ser nulo");
-        this.rolSistema = Objects.requireNonNull(rol, "El rol no puede ser nulo");
+    public Usuario(String documentoidentidad, String nombre, String apellido, Genero genero, LocalDate fechaNacimiento, String numeroTelefono, String correoElectronico, String nombreUsuario, Roles rol, boolean activo) {
+        super(documentoidentidad, nombre, apellido, genero, fechaNacimiento, numeroTelefono, correoElectronico);
+        // this.nombreUsuario = Objects.requireNonNull(nombreUsuario, "El nombre de usuario no puede ser nulo");
+        // this.rolSistema = Objects.requireNonNull(rol, "El rol no puede ser nulo");
+        cambiarNombreUsuario(nombreUsuario);
+        cambiarRol(rol);
         this.activo = Objects.requireNonNull(activo, "El estado del usuario no puede ser nulo");
     }
 
@@ -60,11 +65,11 @@ public class Usuario extends Persona {
         return this.rolSistema.equals(rolRequerido);
     }
 
-    public Usuario(String nombreUsuario, Roles rol) {
-        cambiarNombreUsuario(nombreUsuario);
-        cambiarRol(rol);
-        this.activo = true;
-    }
+    // public Usuario(String nombreUsuario, Roles rol) {
+    //     cambiarNombreUsuario(nombreUsuario);
+    //     cambiarRol(rol);
+    //     this.activo = true;
+    // }
 
     public void cambiarNombreUsuario(String nombreUsuario) {
         if (nombreUsuario == null || nombreUsuario.isBlank()) {

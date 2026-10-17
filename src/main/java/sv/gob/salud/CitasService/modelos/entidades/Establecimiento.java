@@ -1,4 +1,10 @@
-package salud.gob.sv.citaService.modelos.entidades;
+package sv.gob.salud.CitasService.modelos.entidades;
+
+import java.time.LocalDateTime;
+import java.util.List;
+
+import sv.gob.salud.CitasService.modelos.enums.EstadoEstablecimiento;
+import sv.gob.salud.CitasService.modelos.enums.TipoEstablecimiento;
 
 public class Establecimiento {
     private Long id;
@@ -27,6 +33,10 @@ public class Establecimiento {
         return String.format(
             "codigo: %s /n establecimiento: %s /n dirección: %s /n correo: %s /n telefono: %s", 
             this.codigo, this.nombre, this.direccion, this.correo, this.telefono );
+    }
+
+    public String getNombre(){
+        return nombre;
     }
 
 }
