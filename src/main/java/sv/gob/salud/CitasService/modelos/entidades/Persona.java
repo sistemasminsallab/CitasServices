@@ -1,8 +1,10 @@
 package sv.gob.salud.CitasService.modelos.entidades;
 import sv.gob.salud.CitasService.modelos.enums.Genero;
 import sv.gob.salud.CitasService.modelos.excepciones.DatosPersonaInvalidosException;
+import sv.gob.salud.CitasService.modelos.validaciones.Validaciones;
 
 import java.time.LocalDate;
+import java.time.Period;
 import java.util.Objects;
 import java.util.regex.Pattern;
 
@@ -49,7 +51,7 @@ public class Persona {
     }
 
     public void setNombre(String nombres) {
-        this.nombre = validarTexto(nombres, "Nombre no puede ser nulo o vacío");
+        this.nombre = Validaciones.textoObligatorio(nombres, "Nombre no puede ser nulo o vacío");
     }
 
     public String getApellidos() {
@@ -96,7 +98,7 @@ public class Persona {
                 throw new IllegalArgumentException("Formato de correo electrónico inválido");
             }
         }
-        this.correoElectronico = correoElectronico != null ? correoElectronico.trim() : null;
+        this.correoElectronico = Validaciones.textoOpcional(correoElectronico);
     }
 
     public String getTelefono() {
@@ -137,16 +139,11 @@ public class Persona {
     }
 
     public int edad() {
-        LocalDate fechaActual = LocalDate.now();
-        int edad = fechaActual.getYear() - fechaNacimiento.getYear();
-        if (fechaActual.getDayOfYear() < fechaNacimiento.getDayOfYear()) {
-            edad--;
-        }
-        return edad;
+        return Period.between(fechaNacimiento, LocalDate.now()).getYears();
     }
 
     public boolean tieneContactoRegistrado() { 
-        return (correoElectronico != null && !correoElectronico.isBlank()) || (numeroTelefono != null && !numeroTelefono.isBlank()); 
+        return (correoElectronico != null || numeroTelefono != null); 
     }
 
     protected static String validarTexto(String valor, String mensaje) {
