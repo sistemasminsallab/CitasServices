@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import sv.gob.salud.CitasService.modelos.enums.EstadoEstablecimiento;
+import sv.gob.salud.CitasService.modelos.enums.TipoEstablecimiento;
 
 public class Establecimiento {
     private Long id;
