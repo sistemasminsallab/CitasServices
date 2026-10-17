@@ -42,5 +42,5 @@ public class CitaVirtual extends Cita {
 
     @Override public Modalidad modalidad()   { return Modalidad.VIRTUAL; }
     @Override public String detalleLugar()   { return enlaceDeCitaVirtual(); }
-    }
+    
 }
