@@ -1,6 +1,10 @@
 package sv.gob.salud.CitasService.modelos.entidades;
 
+import sv.gob.salud.CitasService.modelos.enums.Genero;
+
+import java.time.LocalDate;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 public class Empleado extends Persona {
@@ -9,6 +13,25 @@ public class Empleado extends Persona {
     private List<AgendaMedica> agendasMedicas;
     private String descripcion;
 
+
+    public Empleado(String documentoidentidad,
+                    String nombre,
+                    String apellido,
+                    Genero genero,
+                    LocalDate fechaNacimiento,
+                    String numeroTelefono,
+                    String correoElectronico,
+                    String jvpm,
+                    Set<Especialidad> especialidades,
+                    List<AgendaMedica> agendasMedicas,
+                    String descripcion
+    ) {
+        super(documentoidentidad, nombre, apellido, genero, fechaNacimiento, numeroTelefono, correoElectronico);
+        this.jvpm = Objects.requireNonNull(jvpm, "El jvpm no puede ser nulo");
+        this.especialidades = especialidades;
+        this.agendasMedicas = agendasMedicas;
+        this.descripcion = descripcion;
+    }
 
     public String getJvpm() {
         return jvpm;
