@@ -1,6 +1,7 @@
 package sv.gob.salud.CitasService.modelos.entidades;
 
 import sv.gob.salud.CitasService.modelos.enums.EstadoCita;
+import sv.gob.salud.CitasService.modelos.enums.Modalidad;
 import sv.gob.salud.CitasService.modelos.enums.Prioridad;
 import sv.gob.salud.CitasService.modelos.enums.TipoCita;
 
@@ -44,19 +45,21 @@ public class CitaPresencial extends Cita {
     }
 
     public boolean tieneConsultorioAsignado() {
-        if (consultorio == null || consultorio.isEmpty()) {
-            return false;
-        } else {
-            return true;
-        }
+        // if (consultorio == null || consultorio.isEmpty()) {
+        //     return false;
+        // } else {
+        //     return true;
+        // }
+        return consultorio != null && !consultorio.isEmpty();
     }
 
     public boolean tieneEstablecimientoAsignado() {
-        if (establecimiento == null) {
-            return false;
-        } else {
-            return true;
-        }
+        // if (establecimiento == null) {
+        //     return false;
+        // } else {
+        //     return true;
+        // }
+        return establecimiento != null;
     }
 
     public String obtenerInformacionDeCitaPresencial() {
@@ -65,6 +68,16 @@ public class CitaPresencial extends Cita {
         } else {
             return "No se ha asignado un establecimiento o consultorio para la cita presencial";
         }
+    }
+
+    @Override
+    public Modalidad modalidad() {
+        return Modalidad.VIRTUAL;
+    }
+
+    @Override
+    public String detalleLugar() {
+        return null;
     }
 
 
