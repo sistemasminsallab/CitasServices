@@ -66,7 +66,16 @@ public class CitaPresencial extends Cita {
             return "No se ha asignado un establecimiento o consultorio para la cita presencial";
         }
     }
+/*
+    @Override
+    public Modalidad modalidad() {
+        return Modalidad.VIRTUAL;
+    }
 
+    @Override
+    public String detalleLugar() {
+        return enlaceDeCitaVirtual();
+    }*/
 
 }
 
