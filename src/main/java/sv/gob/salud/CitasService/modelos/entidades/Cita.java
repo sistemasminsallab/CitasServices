@@ -3,10 +3,11 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 
 import sv.gob.salud.CitasService.modelos.enums.EstadoCita;
+import sv.gob.salud.CitasService.modelos.enums.Modalidad;
 import sv.gob.salud.CitasService.modelos.enums.Prioridad;
 import sv.gob.salud.CitasService.modelos.enums.TipoCita;
 
-public class Cita {
+public abstract class Cita {
 
     private Long id;
     private AgendaMedica agendaMedica;
@@ -52,6 +53,11 @@ public class Cita {
         this.horaInicio = horaInicio;
         this.horaFin = horaFin;
     }
+
+    /** Cada tipo de cita sabe qué modalidad es y cómo describe su lugar (Polimorfismo / OCP). */
+    public abstract Modalidad modalidad();
+ 
+    public abstract String detalleLugar();
 
     // Getters 
     public Long getId(){ 

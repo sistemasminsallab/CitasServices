@@ -48,30 +48,14 @@ public class Empleado extends Persona {
     }
 
     public boolean tieneEspecialidadesAsignadas() {
-        if (especialidades == null || especialidades.isEmpty()) {
-            return false;
-        } else {
-            return true;
-        }
+        return especialidades != null && !especialidades.isEmpty();
     }
 
     public boolean tieneAgendasMedicasAsignadas() {
-        if (agendasMedicas == null || agendasMedicas.isEmpty()) {
-            return false;
-        } else {
-            return true;
-        }
+        return agendasMedicas != null && !agendasMedicas.isEmpty();
     }
 
-    public int cantidadDeEspecialidadesAsignadas() {
-        if (especialidades == null) {
-            return 0;
-        } else {
-            return especialidades.size();
-        }
+   public int cantidadDeEspecialidadesAsignadas() {
+        return especialidades != null && !especialidades.isEmpty() ? especialidades.size() : 0;
     }
-    
-    
-    
-
 }
