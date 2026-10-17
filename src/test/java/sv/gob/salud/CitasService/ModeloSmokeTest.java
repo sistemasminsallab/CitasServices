@@ -25,7 +25,7 @@ import sv.gob.salud.CitasService.modelos.excepciones.DatosPersonaInvalidosExcept
 public class ModeloSmokeTest {
 
     private Paciente paciente(String dui, LocalDate nacimiento){
-        return new Paciente(dui,"Luis","Pérez", Genero.masculino, nacimiento, "7000-0000",null,"1234-24");
+        return new Paciente(dui,"Luis","Pérez", Genero.MASCULINO, nacimiento, "7000-0000",null,"1234-24");
     }
 
     private CitaDomiciliaria visita(String direccion, String referencia) {
@@ -57,8 +57,8 @@ public class ModeloSmokeTest {
 
     @Test
     void ubicacionDomiciliariaConYSinReferencia() {
-        assertEquals("Col. Escalon - Referencia: casa azul", visita("Col. Escalon", "casa azul").obtenerUbicacionCompleta());
-        assertEquals("Col. Escalon", visita("Col. Escalón", " ").obtenerUbicacionCompleta());
+        assertEquals("Col. Escalón - Referencia: casa azul", visita("Col. Escalón", "casa azul").obtenerUbicacionCompleta());
+        assertEquals("Col. Escalón", visita("Col. Escalón", " ").obtenerUbicacionCompleta());
         assertFalse(visita("Col. Escalón", null).tieneReferenciaUbicacion());
     }
 
