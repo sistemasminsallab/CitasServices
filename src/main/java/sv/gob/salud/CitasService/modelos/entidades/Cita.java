@@ -141,4 +141,16 @@ public abstract class Cita {
      * (por ejemplo: el enlace virtual o el consultorio/sucursal).
      */
     public abstract String detalleLugar();
+
+    /** Experto: la cita tiene fecha y horas, así que ella decide si choca con otra. */
+    public boolean seSolapaCon(Cita otra) {
+        if (otra == null || estaCancelada() || otra.estaCancelada() || !fechaCita.equals(otra.fechaCita)) {
+            return false;
+        }
+        return horaInicio.isBefore(otra.horaFin) && otra.horaInicio.isBefore(horaFin);
+    }
+
+    public boolean estaCancelada() {
+        return estadoCita == EstadoCita.CANCELADA;
+    }
 }
