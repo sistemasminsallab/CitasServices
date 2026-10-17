@@ -1,13 +1,15 @@
 package sv.gob.salud.CitasService.modelos.entidades;
-import sv.gob.salud.CitasService.modelos.enums.Genero;
-import sv.gob.salud.CitasService.modelos.excepciones.DatosPersonaInvalidosException;
 
 import java.time.LocalDate;
+import java.time.Period;
 import java.util.Objects;
 import java.util.regex.Pattern;
 
+import sv.gob.salud.CitasService.modelos.enums.Genero;
+import sv.gob.salud.CitasService.modelos.excepciones.DatosPersonaInvalidosException;
+import sv.gob.salud.CitasService.modelos.validacion.Validaciones;
+
 public class Persona {
-    //private Integer id;
     private String documentoidentidad;
     private String nombre;
     private String apellido;
@@ -16,11 +18,11 @@ public class Persona {
     private String numeroTelefono;
     private String correoElectronico;
 
-    private static final Pattern FORMATO_DUI = Pattern.compile("^\\d{8}-\\d$"); 
+    private static final Pattern FORMATO_DUI = Pattern.compile("^\\d{8}-\\d$");
     private static final String DUI_CEROS = "00000000-0";
 
-    //Constructores -----------------------------------
-    public Persona(String documentoidentidad, String nombre, String apellido, Genero genero, LocalDate fechaNacimiento, String numeroTelefono, String correoElectronico) {
+    public Persona(String documentoidentidad, String nombre, String apellido, Genero genero,
+                   LocalDate fechaNacimiento, String numeroTelefono, String correoElectronico) {
         setDocumentoIdentidad(documentoidentidad);
         setNombre(nombre);
         setApellido(apellido);
@@ -30,40 +32,27 @@ public class Persona {
         setCorreoElectronico(correoElectronico);
     }
 
-    //Getters y Setters -----------------------------------
+    public String getDocumentoIdentidad() { return documentoidentidad; }
 
-    public String getDocumentoIdentidad() {
-        return documentoidentidad;
+    public void setDocumentoIdentidad(String documentoidentidad) {
+        if (esDuiValido(documentoidentidad)) {
+            this.documentoidentidad = documentoidentidad;
+        } else {
+            throw new DatosPersonaInvalidosException("El DUI ingresado no es válido: " + documentoidentidad);
+        }
     }
 
-    public void setDocumentoIdentidad(String documentoidentidad){
-       if(esDuiValido(documentoidentidad)){
-           this.documentoidentidad = documentoidentidad;
-       } else {
-           throw new DatosPersonaInvalidosException("El DUI ingresado no es válido: " + documentoidentidad);    
-       }
-    }
-
-     public String getNombres() {
-        return nombre;
-    }
-
+    public String getNombres() { return nombre; }
     public void setNombre(String nombres) {
-        this.nombre = validarTexto(nombres, "Nombre no puede ser nulo o vacío");
+        this.nombre = Validaciones.textoObligatorio(nombres, "Nombre no puede ser nulo o vacío");
     }
 
-    public String getApellidos() {
-        return apellido;
-    }
-
+    public String getApellidos() { return apellido; }
     public void setApellido(String apellidos) {
-        this.apellido = validarTexto(apellidos, "Apellido no puede ser nulo o vacío");
+        this.apellido = Validaciones.textoObligatorio(apellidos, "Apellido no puede ser nulo o vacío");
     }
 
-    public Genero getGenero() {
-        return genero;
-    }
-
+    public Genero getGenero() { return genero; }
     public void setGenero(Genero genero) {
         if (Objects.isNull(genero)) {
             throw new DatosPersonaInvalidosException("Género no puede ser nulo");
@@ -71,10 +60,7 @@ public class Persona {
         this.genero = genero;
     }
 
-    public LocalDate getFechaNacimiento() {
-        return fechaNacimiento;
-    }
-
+    public LocalDate getFechaNacimiento() { return fechaNacimiento; }
     public void setFechaNacimiento(LocalDate fechaNacimiento) {
         if (Objects.isNull(fechaNacimiento)) {
             throw new DatosPersonaInvalidosException("Fecha de nacimiento no puede ser nula");
@@ -85,51 +71,39 @@ public class Persona {
         this.fechaNacimiento = fechaNacimiento;
     }
 
-    public String getCorreoElectronico() {
-        return correoElectronico;
-    }
-
+    public String getCorreoElectronico() { return correoElectronico; }
     public void setCorreoElectronico(String correoElectronico) {
-        // El correo electrónico puede ser opcional, pero si se ingresa debe ser válido
-        if (correoElectronico != null && !correoElectronico.trim().isEmpty()) {
-            if (!correoElectronico.matches("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$")) {
-                throw new IllegalArgumentException("Formato de correo electrónico inválido");
-            }
+        if (correoElectronico != null && !correoElectronico.trim().isEmpty()
+                && !correoElectronico.matches("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$")) {
+            throw new IllegalArgumentException("Formato de correo electrónico inválido");
         }
-        this.correoElectronico = correoElectronico != null ? correoElectronico.trim() : null;
+        this.correoElectronico = Validaciones.textoOpcional(correoElectronico);
     }
 
-    public String getTelefono() {
-        return numeroTelefono;
-    }
-
+    public String getTelefono() { return numeroTelefono; }
     public void setTelefono(String numeroTelefono) {
-        // El teléfono puede ser opcional, pero si se ingresa debe ser válido
-        if (numeroTelefono != null && !numeroTelefono.trim().isEmpty()) {
-            if (!numeroTelefono.matches("\\+?[0-9\\s\\-()]{7,20}")) {
-                throw new IllegalArgumentException("Formato de teléfono inválido");
-            }
+        if (numeroTelefono != null && !numeroTelefono.trim().isEmpty()
+                && !numeroTelefono.matches("\\+?[0-9\\s\\-()]{7,20}")) {
+            throw new IllegalArgumentException("Formato de teléfono inválido");
         }
-        this.numeroTelefono = numeroTelefono != null ? numeroTelefono.trim() : null;
+        this.numeroTelefono = Validaciones.textoOpcional(numeroTelefono);
     }
 
-    //Metodos -----------------------------------
-    public static boolean esDuiValido(String dui) { 
-        if (dui == null || ! FORMATO_DUI.matcher(dui.trim()).matches() || DUI_CEROS.equals(dui.trim())) { 
-            return false; 
-        } 
-        String[] partes = dui.trim().split("-"); String correlativo = partes[0]; 
-        int digitoVerificadorEsperado = Integer.parseInt(partes[1]); 
-        int suma = 0; 
-        int ponderacion = 9; 
-        for (int i = 0; i < correlativo.length(); i++) { 
-            int digito = Character.getNumericValue(correlativo.charAt(i)); suma += digito * ponderacion; ponderacion--; 
-        } 
-        int mod = suma % 10; 
-        int residuo = 10 - mod; if (residuo == 10) { 
-            residuo = 0; 
-        } 
-        return residuo == digitoVerificadorEsperado; 
+    public static boolean esDuiValido(String dui) {
+        if (dui == null || !FORMATO_DUI.matcher(dui.trim()).matches() || DUI_CEROS.equals(dui.trim())) {
+            return false;
+        }
+        String[] partes = dui.trim().split("-");
+        String correlativo = partes[0];
+        int digitoVerificadorEsperado = Integer.parseInt(partes[1]);
+        int suma = 0;
+        int ponderacion = 9;
+        for (int i = 0; i < correlativo.length(); i++) {
+            suma += Character.getNumericValue(correlativo.charAt(i)) * ponderacion--;
+        }
+        int residuo = 10 - (suma % 10);
+        if (residuo == 10) residuo = 0;
+        return residuo == digitoVerificadorEsperado;
     }
 
     public String getNombreCompleto() {
@@ -137,24 +111,10 @@ public class Persona {
     }
 
     public int edad() {
-        LocalDate fechaActual = LocalDate.now();
-        int edad = fechaActual.getYear() - fechaNacimiento.getYear();
-        if (fechaActual.getDayOfYear() < fechaNacimiento.getDayOfYear()) {
-            edad--;
-        }
-        return edad;
+        return Period.between(fechaNacimiento, LocalDate.now()).getYears();
     }
 
-    public boolean tieneContactoRegistrado() { 
-        return (correoElectronico != null && !correoElectronico.isBlank()) || (numeroTelefono != null && !numeroTelefono.isBlank()); 
+    public boolean tieneContactoRegistrado() {
+        return correoElectronico != null || numeroTelefono != null;
     }
-
-    protected static String validarTexto(String valor, String mensaje) {
-        if (Objects.isNull(valor) || valor.trim().isEmpty()) {
-            throw new DatosPersonaInvalidosException(mensaje);
-        }
-        return valor.trim();
-    }
-
-
 }

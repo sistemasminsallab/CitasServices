@@ -44,19 +44,11 @@ public class CitaPresencial extends Cita {
     }
 
     public boolean tieneConsultorioAsignado() {
-        if (consultorio == null || consultorio.isEmpty()) {
-            return false;
-        } else {
-            return true;
-        }
+        return consultorio != null && !consultorio.isEmpty();
     }
 
     public boolean tieneEstablecimientoAsignado() {
-        if (establecimiento == null) {
-            return false;
-        } else {
-            return true;
-        }
+        return establecimiento != null;
     }
 
     public String obtenerInformacionDeCitaPresencial() {

@@ -31,3 +31,7 @@ build/
 
 ### VS Code ###
 .vscode/
+
+# Herramientas y dependencias locales
+.tools/
+.m2/
