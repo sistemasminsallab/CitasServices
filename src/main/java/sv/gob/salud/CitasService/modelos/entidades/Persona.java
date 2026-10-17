@@ -94,16 +94,12 @@ public class Persona {
             return false;
         }
         String[] partes = dui.trim().split("-");
-        String correlativo = partes[0];
-        int digitoVerificadorEsperado = Integer.parseInt(partes[1]);
         int suma = 0;
-        int ponderacion = 9;
-        for (int i = 0; i < correlativo.length(); i++) {
-            suma += Character.getNumericValue(correlativo.charAt(i)) * ponderacion--;
+        for (int i = 0; i < 8; i++) {
+            suma += Character.getNumericValue(partes[0].charAt(i)) * (9 - i);
         }
-        int residuo = 10 - (suma % 10);
-        if (residuo == 10) residuo = 0;
-        return residuo == digitoVerificadorEsperado;
+        int esperado = (10 - suma % 10) % 10;
+        return esperado == Integer.parseInt(partes[1]);
     }
 
     public String getNombreCompleto() {
