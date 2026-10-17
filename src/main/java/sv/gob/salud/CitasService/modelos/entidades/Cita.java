@@ -109,7 +109,7 @@ public class Cita {
 
     public void reprogramarCita(LocalDate fechaCita, LocalTime horaInicio, LocalTime horaFin ){
 
-        if (estadoCita == EstadoCita.CANCELADA) { 
+        if (estaCancelada()) { 
             throw new IllegalStateException( "No se puede reprogramar una cita cancelada"); 
         }
 
@@ -128,5 +128,17 @@ public class Cita {
         
         if (!inicio.isBefore(fin)) { 
             throw new IllegalArgumentException( "La hora de inicio debe ser anterior a la hora final"); } 
+    }
+
+    /** Experto: la cita tiene fecha y horas, así que ella decide si choca con otra. */
+    public boolean seSolapaCon(Cita otra) {
+        if (otra == null || estaCancelada() || otra.estaCancelada() || !fechaCita.equals(otra.fechaCita)) {
+            return false;
+        }
+        return horaInicio.isBefore(otra.horaFin) && otra.horaInicio.isBefore(horaFin);
+    }
+
+    public boolean estaCancelada() {
+        return estadoCita == EstadoCita.CANCELADA;
     }
 }
