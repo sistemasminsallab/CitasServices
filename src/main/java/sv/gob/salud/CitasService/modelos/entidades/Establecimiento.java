@@ -20,6 +20,13 @@ public class Establecimiento {
     private LocalDateTime inicioAtencion;
     private LocalDateTime finAtencion;
 
+    public Establecimiento(Long id, String codigo, String nombre, String direccion) {
+        this.id = id;
+        this.codigo = codigo;
+        this.nombre = nombre;
+        this.direccion = direccion;
+    }
+
 
     private int countEspecialidades () {
         return this.especialidades.size();
@@ -35,8 +42,9 @@ public class Establecimiento {
             this.codigo, this.nombre, this.direccion, this.correo, this.telefono );
     }
 
-    public String getNombre(){
-        return nombre;
-    }
+    public Long getId(){ return id; }
+    public String getCodigo(){ return codigo; }
+    public String getNombre(){ return nombre; }
+    public String getDireccion(){ return direccion; }
 
 }

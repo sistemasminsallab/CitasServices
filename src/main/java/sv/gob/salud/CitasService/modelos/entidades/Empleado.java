@@ -1,6 +1,8 @@
 package sv.gob.salud.CitasService.modelos.entidades;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -16,6 +18,8 @@ public class Empleado extends Persona {
         super(documentoidentidad, nombre, apellido, genero, fechaNacimiento, numeroTelefono, correoElectronico);
         this.jvpm = jvpm;
         this.descripcion = descripcion;
+        this.especialidades = new HashSet<>();
+        this.agendasMedicas = new ArrayList<>();
     }
 
 

@@ -1,40 +1,19 @@
 package sv.gob.salud.CitasService.modelos.entidades;
 
-import java.time.LocalDate;
 import java.util.Objects;
 
-import sv.gob.salud.CitasService.modelos.enums.Genero;
 import sv.gob.salud.CitasService.modelos.enums.Roles;
 
-public class Usuario extends Persona {
+public class Usuario {
     private String nombreUsuario;
     private Roles rolSistema;
     private boolean activo;
-    private String contrasena;
+    // private String contrasena;
 
     // * Constructores
-    // public Usuario() {}
-
-    public Usuario(String documentoidentidad, String nombre, String apellido, Genero genero, LocalDate fechaNacimiento, String numeroTelefono, String correoElectronico, String nombreUsuario, Roles rol, boolean activo) {
-        super(documentoidentidad, nombre, apellido, genero, fechaNacimiento, numeroTelefono, correoElectronico);
-        // this.nombreUsuario = Objects.requireNonNull(nombreUsuario, "El nombre de usuario no puede ser nulo");
-        // this.rolSistema = Objects.requireNonNull(rol, "El rol no puede ser nulo");
-        cambiarNombreUsuario(nombreUsuario);
-        cambiarRol(rol);
-        this.activo = Objects.requireNonNull(activo, "El estado del usuario no puede ser nulo");
-    }
-
-    // * Setters
-    public void setNombreUsuario(String nombreUsuario) {
-        this.nombreUsuario = nombreUsuario;
-    }
-
-    public void setRolSistema(Roles rolSistema) {
+    public Usuario(String nombreUsuario, Roles rolSistema) {
+        this.nombreUsuario = Objects.requireNonNull(nombreUsuario, "El nombre de usuario no puede ser nulo");
         this.rolSistema = Objects.requireNonNull(rolSistema, "El rol no puede ser nulo");
-    }
-    
-    public void setActivo(boolean activo) {
-        this.activo = Objects.requireNonNull(activo, "El estado del usuario no puede ser nulo");
     }
 
     // * Getters
@@ -47,6 +26,25 @@ public class Usuario extends Persona {
     public boolean isActivo() {
         return activo;
     }
+
+    // * Setters
+    public void setNombreUsuario(String nombreUsuario) {
+        if (nombreUsuario == null || nombreUsuario.isBlank()) {
+            throw new IllegalArgumentException("El nombre de usuario es obligatorio");
+        }
+        this.nombreUsuario = nombreUsuario.trim();
+    }
+
+    public void setRolSistema(Roles rol) {
+        if (rol == null) {
+            throw new IllegalArgumentException("El rol es obligatorio");
+        }
+        this.rolSistema = rol;
+    }
+    
+    // public void setActivo(boolean activo) {
+    //     this.activo = Objects.requireNonNull(activo, "El estado del usuario no puede ser nulo");
+    // }
 
     @Override
     public String toString() {
@@ -64,12 +62,6 @@ public class Usuario extends Persona {
         }
         return this.rolSistema.equals(rolRequerido);
     }
-
-    // public Usuario(String nombreUsuario, Roles rol) {
-    //     cambiarNombreUsuario(nombreUsuario);
-    //     cambiarRol(rol);
-    //     this.activo = true;
-    // }
 
     public void cambiarNombreUsuario(String nombreUsuario) {
         if (nombreUsuario == null || nombreUsuario.isBlank()) {
