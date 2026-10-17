@@ -11,9 +11,9 @@ import java.time.LocalTime;
 import org.junit.jupiter.api.Test;
 
 import sv.gob.salud.CitasService.modelos.entidades.CitaDomiciliaria;
-import sv.gob.salud.CitasService.modelos.entidades.Genero;
 import sv.gob.salud.CitasService.modelos.entidades.Paciente;
 import sv.gob.salud.CitasService.modelos.enums.EstadoCita;
+import sv.gob.salud.CitasService.modelos.enums.Genero;
 import sv.gob.salud.CitasService.modelos.enums.Prioridad;
 import sv.gob.salud.CitasService.modelos.enums.TipoCita;
 import sv.gob.salud.CitasService.modelos.excepciones.DatosPersonaInvalidosException;
@@ -44,7 +44,7 @@ public class ModeloSmokeTest {
 
     @Test 
     void edadSeCalculaEnAnios(){
-        assertEquals(34, paciente("00000001-8", LocalDate.now().minusYears(30)).edad());
+        assertEquals(30, paciente("00000001-8", LocalDate.now().minusYears(30)).edad());
     }
 
 
@@ -69,7 +69,7 @@ public class ModeloSmokeTest {
     void citaCanceladaNoSePuedeReprogramar(){
         CitaDomiciliaria cita = visita("Col. Escalón", null);
         cita.cambiarEstadoCita(EstadoCita.CANCELADA);
-        assertThrows(IllegalArgumentException.class, () -> cita.reprogramarCita(LocalDate.now().plusDays(2), LocalTime.of(8, 0), LocalTime.of(9, 0)));
+        assertThrows(IllegalStateException.class, () -> cita.reprogramarCita(LocalDate.now().plusDays(2), LocalTime.of(8, 0), LocalTime.of(9, 0)));
     }
 
 }
