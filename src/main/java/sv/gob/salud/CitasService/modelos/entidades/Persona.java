@@ -6,7 +6,7 @@ import sv.gob.salud.CitasService.modelos.validacion.Validaciones;
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.Objects;
-import java.util.regex.Pattern;
+// import java.util.regex.Pattern;
 
 public class Persona {
     //private Integer id;
@@ -18,8 +18,8 @@ public class Persona {
     private String numeroTelefono;
     private String correoElectronico;
 
-    private static final Pattern FORMATO_DUI = Pattern.compile("^\\d{8}-\\d$"); 
-    private static final String DUI_CEROS = "00000000-0";
+    // private static final Pattern FORMATO_DUI = Pattern.compile("^\\d{8}-\\d$"); 
+    // private static final String DUI_CEROS = "00000000-0";
 
     //Constructores -----------------------------------
     public Persona(String documentoidentidad, String nombre, String apellido, Genero genero, LocalDate fechaNacimiento, String numeroTelefono, String correoElectronico) {
@@ -39,7 +39,7 @@ public class Persona {
     }
 
     public void setDocumentoIdentidad(String documentoidentidad){
-       if(esDuiValido(documentoidentidad)){
+       if(Dui.esValido(documentoidentidad)){
            this.documentoidentidad = documentoidentidad;
        } else {
            throw new DatosPersonaInvalidosException("El DUI ingresado no es válido: " + documentoidentidad);    
@@ -118,23 +118,23 @@ public class Persona {
     }
 
     //Metodos -----------------------------------
-    public static boolean esDuiValido(String dui) { 
-        if (dui == null || ! FORMATO_DUI.matcher(dui.trim()).matches() || DUI_CEROS.equals(dui.trim())) { 
-            return false; 
-        } 
-        String[] partes = dui.trim().split("-"); String correlativo = partes[0]; 
-        int digitoVerificadorEsperado = Integer.parseInt(partes[1]); 
-        int suma = 0; 
-        int ponderacion = 9; 
-        for (int i = 0; i < correlativo.length(); i++) { 
-            int digito = Character.getNumericValue(correlativo.charAt(i)); suma += digito * ponderacion; ponderacion--; 
-        } 
-        int mod = suma % 10; 
-        int residuo = 10 - mod; if (residuo == 10) { 
-            residuo = 0; 
-        } 
-        return residuo == digitoVerificadorEsperado; 
-    }
+    // public static boolean esDuiValido(String dui) { 
+    //     if (dui == null || ! FORMATO_DUI.matcher(dui.trim()).matches() || DUI_CEROS.equals(dui.trim())) { 
+    //         return false; 
+    //     } 
+    //     String[] partes = dui.trim().split("-"); String correlativo = partes[0]; 
+    //     int digitoVerificadorEsperado = Integer.parseInt(partes[1]); 
+    //     int suma = 0; 
+    //     int ponderacion = 9; 
+    //     for (int i = 0; i < correlativo.length(); i++) { 
+    //         int digito = Character.getNumericValue(correlativo.charAt(i)); suma += digito * ponderacion; ponderacion--; 
+    //     } 
+    //     int mod = suma % 10; 
+    //     int residuo = 10 - mod; if (residuo == 10) { 
+    //         residuo = 0; 
+    //     } 
+    //     return residuo == digitoVerificadorEsperado; 
+    // }
 
     public String getNombreCompleto() {
         return (Objects.isNull(nombre) ? "" : nombre) + " " + (Objects.isNull(apellido) ? "" : apellido);
