@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 
 import sv.gob.salud.CitasService.modelos.enums.EstadoCita;
+import sv.gob.salud.CitasService.modelos.enums.Modalidad;
 import sv.gob.salud.CitasService.modelos.enums.Prioridad;
 import sv.gob.salud.CitasService.modelos.enums.TipoCita;
 
@@ -110,4 +111,13 @@ public class CitaDomiciliaria extends Cita {
             + (referenciaUbicacion == null ? "No especificada" : referenciaUbicacion);
     }
 
+    @Override
+    public Modalidad modalidad() {
+        return Modalidad.DOMICILIARIA;
+    }
+
+    @Override
+    public String detalleLugar() {
+        return mostrarDatosDomiciliarios();
+    }
 }

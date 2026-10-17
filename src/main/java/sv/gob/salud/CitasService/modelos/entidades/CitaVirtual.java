@@ -1,24 +1,34 @@
 package sv.gob.salud.CitasService.modelos.entidades;
 
-public class CitaVirtual {
-    private Long id;
+import java.time.LocalDate;
+import java.time.LocalTime;
+
+import sv.gob.salud.CitasService.modelos.enums.EstadoCita;
+import sv.gob.salud.CitasService.modelos.enums.Modalidad;
+import sv.gob.salud.CitasService.modelos.enums.Prioridad;
+import sv.gob.salud.CitasService.modelos.enums.TipoCita;
+
+public class CitaVirtual extends Cita {
+    // private Long id;
     private String url;
     private String plataforma;
+
+    public CitaVirtual(Long id, AgendaMedica agendaMedica, Expediente expediente, int orden,
+        EstadoCita estadoCita, Prioridad prioridad, TipoCita tipoCita, Cita citaOrigen,
+        LocalDate fechaCita, LocalTime horaInicio, LocalTime horaFin, String url, String plataforma
+    ) {
+        super(id, agendaMedica, expediente, orden, estadoCita, prioridad, tipoCita, citaOrigen, fechaCita, horaInicio, horaFin);
+
+        this.url = url;
+        this.plataforma = plataforma;
+    }
 
     public String getUrl() {
         return url;
     }
 
-    public void setUrl(String url) {
-        this.url = url;
-    }
-
     public String getPlataforma() {
         return plataforma;
-    }
-
-    public void setPlataforma(String plataforma) {
-        this.plataforma = plataforma;
     }
 
     public boolean tieneUrlAsignada() {
@@ -43,5 +53,15 @@ public class CitaVirtual {
         } else {
             return "No se ha asignado un enlace de cita virtual";
         }
+    }
+    
+    @Override
+    public Modalidad modalidad() {
+        return Modalidad.VIRTUAL;
+    }
+
+    @Override
+    public String detalleLugar() {
+        return enlaceDeCitaVirtual();
     }
 }
