@@ -3,6 +3,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 
 import sv.gob.salud.CitasService.modelos.enums.EstadoCita;
+import sv.gob.salud.CitasService.modelos.enums.Modalidad;
 import sv.gob.salud.CitasService.modelos.enums.Prioridad;
 import sv.gob.salud.CitasService.modelos.enums.TipoCita;
 
@@ -96,6 +97,14 @@ public class Cita {
     
     public LocalTime getHoraFin(){ 
         return horaFin; 
+    }
+
+    public Modalidad modalidad() {
+        return null;
+    }
+
+    public String detalleLugar() {
+        return "";
     }
 
     //metodos
