@@ -7,6 +7,8 @@ import java.time.LocalTime;
 import sv.gob.salud.CitasService.modelos.enums.EstadoCita;
 import sv.gob.salud.CitasService.modelos.enums.Prioridad;
 import sv.gob.salud.CitasService.modelos.enums.TipoCita;
+import sv.gob.salud.CitasService.modelos.enums.Modalidad;
+import sv.gob.salud.CitasService.modelos.validacion.Validaciones;
 
 public class CitaDomiciliaria extends Cita {
 
@@ -51,23 +53,13 @@ public class CitaDomiciliaria extends Cita {
         }
 
         this.direccionVisita = direccionVisita.trim(); 
-        this.referenciaUbicacion = normalizarReferencia( referenciaUbicacion);
+        this.referenciaUbicacion = Validaciones.textoOpcional(referenciaUbicacion);
     }
 
     // Validar dirección
-    private void validarDireccion(String direccion) { 
-        if (direccion == null || direccion.isBlank()) { 
-            throw new IllegalArgumentException( "La dirección de visita es obligatoria");
-        }
-    }
-
-    // Normalizar referencia opcional
-    private String normalizarReferencia(String referencia) { 
-        if (referencia == null || referencia.isBlank()) { 
-            return null; 
-        } 
-
-        return referencia.trim(); 
+    private static String validarDireccion(String direccion) {
+        return Validaciones.textoObligatorio(
+                direccion, "La dirección de visita es obligatoria");
     }
 
     // Getters
@@ -80,14 +72,8 @@ public class CitaDomiciliaria extends Cita {
     }
 
     public void actualizarDireccion(String direccionVisita, String referenciaUbicacion) {
-        if (direccionVisita == null || direccionVisita.isBlank()) {
-            throw new IllegalArgumentException(
-                "La dirección de visita es obligatoria"
-            );
-        }
-
-        this.direccionVisita = direccionVisita;
-        this.referenciaUbicacion = referenciaUbicacion;
+        this.direccionVisita = validarDireccion(direccionVisita);
+        this.referenciaUbicacion = Validaciones.textoOpcional(referenciaUbicacion);
     }
 
     public String obtenerUbicacionCompleta() {
@@ -100,14 +86,24 @@ public class CitaDomiciliaria extends Cita {
 
     // Verificar si existe referencia 
     public boolean tieneReferenciaUbicacion() {
-            return referenciaUbicacion != null && !referenciaUbicacion.isBlank();
-        }
+        return referenciaUbicacion != null;
+    }
 
     // Mostrar datos domiciliarios    
     public String mostrarDatosDomiciliarios() {
             return "Dirección: " + direccionVisita
             + "\nReferencia: "
             + (referenciaUbicacion == null ? "No especificada" : referenciaUbicacion);
+    }
+
+    @Override
+    public Modalidad modalidad() {
+        return Modalidad.DOMICILIARIA;
+    }
+
+    @Override
+    public String detalleLugar() {
+        return obtenerUbicacionCompleta();
     }
 
 }
