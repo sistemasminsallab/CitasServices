@@ -139,12 +139,6 @@ public class Persona {
     }
 
     public int edad() {
-        /*LocalDate fechaActual = LocalDate.now();
-        int edad = fechaActual.getYear() - fechaNacimiento.getYear();
-        if (fechaActual.getDayOfYear() < fechaNacimiento.getDayOfYear()) {
-            edad--;
-        }
-        return edad;*/
         return Period.between(fechaNacimiento, LocalDate.now()).getYears();
     }
 
