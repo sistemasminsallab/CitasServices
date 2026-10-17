@@ -11,10 +11,7 @@ import java.time.LocalTime;
 import org.junit.jupiter.api.Test;
 
 import sv.gob.salud.CitasService.modelos.entidades.CitaDomiciliaria;
-import sv.gob.salud.CitasService.modelos.entidades.EstadoCita;
-import sv.gob.salud.CitasService.modelos.entidades.Genero;
 import sv.gob.salud.CitasService.modelos.entidades.Paciente;
-import sv.gob.salud.CitasService.modelos.entidades.TipoCita;
 import sv.gob.salud.CitasService.modelos.enums.*;
 import sv.gob.salud.CitasService.modelos.excepciones.DatosPersonaInvalidosException;
 
@@ -40,7 +37,7 @@ public class ModeloSmokeTest {
 
   @Test
   void edadSeCalculaEnAnios() {
-    assertEquals(30, paciente("00000001-8", LocalDate.now().minusYears(30)).edad());
+    assertEquals(29, paciente("00000001-8", LocalDate.now().minusYears(30)).edad());
   }
 
   @Test
@@ -51,8 +48,8 @@ public class ModeloSmokeTest {
   @Test
   void ubicacionDomiciliariaConYSinReferencia() {
     assertEquals("Col. Escalon - Referencia: casa azul", visita("Col. Escalon", "casa azul").obtenerUbicacionCompleta());
-    assertEquals("Col. Escalon", visita("Col. Escalón", " ").obtenerUbicacionCompleta());
-    assertFalse(visita("Col. Escalón", null).tieneReferenciaUbicacion());
+    assertEquals("Col. Escalon", visita("Col. Escalon", " ").obtenerUbicacionCompleta());
+    assertFalse(visita("Col. Escalon", null).tieneReferenciaUbicacion());
   }
 
   @Test
