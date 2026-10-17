@@ -59,9 +59,9 @@ class ModeloSmokeTest {
     @Test
     void ubicacionDomiciliariaConYSinReferencia() {
         assertEquals("Col. Escalón - Referencia: casa azul",
-                visita("Col. Escalón", "casa azul").obtenerUbicacion());
+                visita("Col. Escalón", "casa azul").obtenerUbicacionCompleta());
         assertEquals("Col. Escalón",
-                visita("Col. Escalón", "   ").obtenerUbicacion());
+                visita("Col. Escalón", "   ").obtenerUbicacionCompleta());
         assertFalse(visita("Col. Escalón", null).tieneReferenciaUbicacion());
     }
 
@@ -73,7 +73,7 @@ class ModeloSmokeTest {
     @Test
     void citaCanceladaNoSePuedeReprogramar() {
         CitaDomiciliaria cita = visita("Col. Escalón", null);
-        cita.cambiarEstado(EstadoCita.CANCELADA);
+        cita.cambiarEstadoCita(EstadoCita.CANCELADA);
         assertThrows(IllegalStateException.class,
                 () -> cita.reprogramarCita(LocalDate.now().plusDays(2), LocalTime.of(8, 0), LocalTime.of(9, 0)));
     }

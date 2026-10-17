@@ -90,4 +90,5 @@ public class CitaDomiciliaria extends Cita {
     public String detalleLugar() {
         return obtenerUbicacionCompleta();
     }
+
 }

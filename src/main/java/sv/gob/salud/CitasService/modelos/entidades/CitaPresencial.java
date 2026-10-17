@@ -62,12 +62,12 @@ public class CitaPresencial extends Cita {
 
     @Override
     public Modalidad modalidad() {
-        return Modalidad.VIRTUAL;
+        return Modalidad.PRESENCIAL;
     }
 
     @Override
     public String detalleLugar() {
-        throw new UnsupportedOperationException("Unimplemented method 'detalleLugar'");
+        return obtenerInformacionDeCitaPresencial();
     }
 
 }

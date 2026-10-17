@@ -49,4 +49,5 @@ public class CitaVirtual extends Cita {
     public String detalleLugar() {
         return enlaceDeCitaVirtual();
     }
+
 }
