@@ -1,8 +1,11 @@
 package sv.gob.salud.CitasService.modelos.entidades;
 import sv.gob.salud.CitasService.modelos.enums.Genero;
 import sv.gob.salud.CitasService.modelos.excepciones.DatosPersonaInvalidosException;
+import sv.gob.salud.CitasService.modelos.validacion.*;
+
 
 import java.time.LocalDate;
+import java.time.Period;
 import java.util.Objects;
 import java.util.regex.Pattern;
 
@@ -49,7 +52,8 @@ public class Persona {
     }
 
     public void setNombre(String nombres) {
-        this.nombre = validarTexto(nombres, "Nombre no puede ser nulo o vacío");
+        // this.nombre = validarTexto(nombres, "Nombre no puede ser nulo o vacío");
+        this.nombre = Validaciones.textoObligatorio(nombres, "Nombre no puede ser nulo o vacío");
     }
 
     public String getApellidos() {
@@ -57,7 +61,7 @@ public class Persona {
     }
 
     public void setApellido(String apellidos) {
-        this.apellido = validarTexto(apellidos, "Apellido no puede ser nulo o vacío");
+        this.apellido = Validaciones.textoObligatorio(apellidos, "Apellido no puede ser nulo o vacío");
     }
 
     public Genero getGenero() {
@@ -90,6 +94,7 @@ public class Persona {
     }
 
     public void setCorreoElectronico(String correoElectronico) {
+        this.correoElectronico = Validaciones.textoOpcional(correoElectronico);
         // El correo electrónico puede ser opcional, pero si se ingresa debe ser válido
         if (correoElectronico != null && !correoElectronico.trim().isEmpty()) {
             if (!correoElectronico.matches("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$")) {
@@ -137,24 +142,29 @@ public class Persona {
     }
 
     public int edad() {
-        LocalDate fechaActual = LocalDate.now();
+        /* LocalDate fechaActual = LocalDate.now();
         int edad = fechaActual.getYear() - fechaNacimiento.getYear();
         if (fechaActual.getDayOfYear() < fechaNacimiento.getDayOfYear()) {
             edad--;
-        }
-        return edad;
+        } */
+        
+        return Period.between(fechaNacimiento, LocalDate.now()).getYears();
+        // return edad;
     }
 
     public boolean tieneContactoRegistrado() { 
-        return (correoElectronico != null && !correoElectronico.isBlank()) || (numeroTelefono != null && !numeroTelefono.isBlank()); 
+        // return (correoElectronico != null && !correoElectronico.isBlank()) || (numeroTelefono != null && !numeroTelefono.isBlank());
+        boolean tieneCorreo = correoElectronico != null && !correoElectronico.isEmpty();
+        boolean tieneTelefono = numeroTelefono != null && !numeroTelefono.isEmpty();
+
+        return tieneCorreo || tieneTelefono;
     }
 
-    protected static String validarTexto(String valor, String mensaje) {
+    /* protected static String validarTexto(String valor, String mensaje) {
         if (Objects.isNull(valor) || valor.trim().isEmpty()) {
             throw new DatosPersonaInvalidosException(mensaje);
         }
         return valor.trim();
-    }
-
+    } */
 
 }

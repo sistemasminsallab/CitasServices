@@ -37,7 +37,7 @@ public class ModeloSmokeTest {
 
   @Test
   void edadSeCalculaEnAnios() {
-    assertEquals(29, paciente("00000001-8", LocalDate.now().minusYears(30)).edad());
+    assertEquals(30, paciente("00000001-8", LocalDate.now().minusYears(30)).edad());
   }
 
   @Test

@@ -44,20 +44,26 @@ public class CitaPresencial extends Cita {
         this.indicaciones = indicaciones;
     }
 
-    public boolean tieneConsultorioAsignado() {
+    /* ublic boolean tieneConsultorioAsignado() {
         if (consultorio == null || consultorio.isEmpty()) {
             return false;
         } else {
             return true;
         }
+    } */
+
+    public boolean tieneConsultorioAsignado() {
+        return consultorio != null && !consultorio.isEmpty();
     }
 
     public boolean tieneEstablecimientoAsignado() {
-        if (establecimiento == null) {
+        /* if (establecimiento == null) {
             return false;
         } else {
             return true;
-        }
+        } */
+
+        return establecimiento != null && establecimiento.getId() != null;
     }
 
     public String obtenerInformacionDeCitaPresencial() {
