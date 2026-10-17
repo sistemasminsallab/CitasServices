@@ -53,6 +53,9 @@ public class Cita {
         this.horaFin = horaFin;
     }
 
+    public abstract Modalidad modalidad();
+    public abstract String detalleLugar();
+
     // Getters 
     public Long getId(){ 
             return id; 
