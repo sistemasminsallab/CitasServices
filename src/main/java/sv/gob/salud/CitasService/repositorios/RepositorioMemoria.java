@@ -1,0 +1,45 @@
+package sv.gob.salud.CitasService.repositorios;
+
+import org.springframework.stereotype.Repository;
+import sv.gob.salud.CitasService.modelos.entidades.AgendaMedica;
+import sv.gob.salud.CitasService.modelos.entidades.Cita;
+
+import java.util.List;
+import java.util.Optional;
+import java.util.concurrent.atomic.AtomicLong;
+
+@Repository
+public class RepositorioMemoria implements CitaRepositorio, AgendaRepositorio{
+    private final List<AgendaMedica> agendas;
+    private final AtomicLong secuencia = new AtomicLong(100);
+
+    public RepositorioMemoria(List<AgendaMedica> agendas) {
+        this.agendas = agendas;
+    }
+
+    @Override
+    public List<AgendaMedica> buscarAgendas() {
+        return List.copyOf(agendas);
+    }
+
+    @Override
+    public Optional<AgendaMedica> buscarAgendaPorId(Long id) {
+        return agendas.stream().filter(a -> a.getId().equals(id)).findFirst();
+    }
+
+    @Override
+    public List<Cita> buscarCitas() {
+        return agendas.stream().flatMap(a -> a.getCitas().stream())
+                .sorted((x, y) -> x.getId().compareTo(y.getId())).toList();
+    }
+
+    @Override
+    public Optional<Cita> buscarCitaPorId(Long id) {
+        return buscarCitas().stream().filter(c -> c.getId().equals(id)).findFirst();
+    }
+
+    @Override
+    public Long siguienteId() {
+        return secuencia.incrementAndGet();
+    }
+}
