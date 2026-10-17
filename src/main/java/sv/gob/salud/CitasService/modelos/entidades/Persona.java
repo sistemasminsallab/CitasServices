@@ -51,7 +51,7 @@ public class Persona {
     }
 
     public void setNombre(String nombres) {
-        this.nombre = Validaciones.textoObligatorio(nombre, "Nombre no puede ser nulo o vacío")
+        this.nombre = Validaciones.textoObligatorio(nombre, "Nombre no puede ser nulo o vacío");
     }
 
     public String getApellidos() {
@@ -59,7 +59,7 @@ public class Persona {
     }
 
     public void setApellido(String apellidos) {
-        this.apellido = Validaciones.textoObligatorio(apellido, "apellido no puede ser nulo o vacío")
+        this.apellido = Validaciones.textoObligatorio(apellido, "apellido no puede ser nulo o vacío");
     }
 
     public Genero getGenero() {
@@ -98,7 +98,7 @@ public class Persona {
                 throw new IllegalArgumentException("Formato de correo electrónico inválido");
             }
         }
-        this.correoElectronico = Validaciones.textoObligatorio(correoElectronico, "correoElectronico no puede ser nulo o vacío")
+        this.correoElectronico = Validaciones.textoObligatorio(correoElectronico, "correoElectronico no puede ser nulo o vacío");
     }
 
     public String getTelefono() {

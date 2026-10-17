@@ -65,6 +65,11 @@ public class CitaPresencial extends Cita {
         return Modalidad.VIRTUAL;
     }
 
+    @Override
+    public String detalleLugar() {
+        throw new UnsupportedOperationException("Unimplemented method 'detalleLugar'");
+    }
+
 }
 
 
