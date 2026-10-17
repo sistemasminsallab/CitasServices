@@ -7,6 +7,7 @@ import java.time.LocalTime;
 import sv.gob.salud.CitasService.modelos.enums.EstadoCita;
 import sv.gob.salud.CitasService.modelos.enums.Prioridad;
 import sv.gob.salud.CitasService.modelos.enums.TipoCita;
+import sv.gob.salud.CitasService.modelos.validacion.Validaciones;
 
 public class CitaDomiciliaria extends Cita {
 
@@ -42,23 +43,12 @@ public class CitaDomiciliaria extends Cita {
             horaFin
         );
 
-        validarDireccion(direccionVisita);
-
-        if (direccionVisita == null || direccionVisita.isBlank()) {
-            throw new IllegalArgumentException(
-                "La dirección de visita es obligatoria"
-            );
-        }
-
-        this.direccionVisita = direccionVisita.trim(); 
+        this.direccionVisita = validarDireccion(direccionVisita); 
         this.referenciaUbicacion = normalizarReferencia( referenciaUbicacion);
     }
 
-    // Validar dirección
-    private void validarDireccion(String direccion) { 
-        if (direccion == null || direccion.isBlank()) { 
-            throw new IllegalArgumentException( "La dirección de visita es obligatoria");
-        }
+    private static String validarDireccion(String direccion) {
+        return Validaciones.textoObligatorio(direccion, "La dirección de visita es obligatoria");
     }
 
     // Normalizar referencia opcional
