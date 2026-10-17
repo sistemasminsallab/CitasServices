@@ -7,7 +7,7 @@ import sv.gob.salud.CitasService.modelos.enums.Modalidad;
 import sv.gob.salud.CitasService.modelos.enums.Prioridad;
 import sv.gob.salud.CitasService.modelos.enums.TipoCita;
 
-public class Cita {
+public abstract class Cita {
 
     private Long id;
     private AgendaMedica agendaMedica;
@@ -99,13 +99,9 @@ public class Cita {
         return horaFin; 
     }
 
-    public Modalidad modalidad() {
-        return null;
-    }
+    public abstract Modalidad modalidad();
 
-    public String detalleLugar() {
-        return "";
-    }
+    public abstract String detalleLugar();
 
     /** Experto: la cita tiene fecha y horas, así que ella decide si choca con otra. */
     public boolean seSolapaCon(Cita otra) {
