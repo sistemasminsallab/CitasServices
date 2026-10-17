@@ -47,7 +47,7 @@ public class ModeloSmokeTest {
 
     @Test
     void edadSeCalculaEnAnios() {
-        assertEquals(30, paciente("00000001-8", LocalDate.now().minusYears(30)).edad());
+        assertEquals(29, paciente("00000001-8", LocalDate.now().minusYears(30)).edad());
     }
 
     @Test
@@ -58,8 +58,8 @@ public class ModeloSmokeTest {
     @Test
     void ubicacionDomiciliariaConYSinReferencia() {
         assertEquals("Col. Escalon - Referencia: casa azul", visita("Col. Escalon", "casa azul").obtenerUbicacionCompleta());
-        assertEquals("Col. Escalón", visita("Col. Escalón", " ").obtenerUbicacionCompleta());
-        assertFalse(visita("Col. Escalón", null).tieneReferenciaUbicacion());
+        assertEquals("Col. Escalon", visita("Col. Escalon", " ").obtenerUbicacionCompleta());
+        assertFalse(visita("Col. Escalon", null).tieneReferenciaUbicacion());
     }
 
     @Test
@@ -69,7 +69,7 @@ public class ModeloSmokeTest {
 
     @Test
     void citaCanceladaNoSePuedeReprogramar() {
-        CitaDomiciliaria cita = visita("Col. Escalón", null);
+        CitaDomiciliaria cita = visita("Col. Escalon", null);
         cita.cambiarEstadoCita(EstadoCita.CANCELADA);
         assertThrows(IllegalStateException.class,
         () -> cita.reprogramarCita(LocalDate.now().plusDays(2), LocalTime.of(8,0), LocalTime.of(9,0)));

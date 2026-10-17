@@ -3,7 +3,7 @@ package sv.gob.salud.CitasService.modelos.enums;
 public enum Modalidad {
     PRESENCIAL("Presencial"),
     VIRTUAL("Virtual"),
-    TELEFONICA("Domiciliaria");
+    DOMICILIARIA("Domiciliaria");
 
     private final String descripcion;
 
