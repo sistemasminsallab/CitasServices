@@ -1,5 +1,6 @@
 package sv.gob.salud.CitasService.modelos.entidades;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Set;
 
@@ -9,6 +10,9 @@ public class Empleado extends Persona {
     private List<AgendaMedica> agendasMedicas;
     private String descripcion;
 
+    public Empleado(String documentoidentidad, String nombre, String apellido, Genero genero, LocalDate fechaNacimiento, String numeroTelefono, String correoElectronico) {
+        super(documentoidentidad, nombre, apellido, genero, fechaNacimiento, numeroTelefono, correoElectronico);
+    }
 
     public String getJvpm() {
         return jvpm;

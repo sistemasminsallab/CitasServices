@@ -1,4 +1,9 @@
-package salud.gob.sv.citaService.modelos.entidades;
+package sv.gob.salud.CitasService.modelos.entidades;
+
+import java.time.LocalDateTime;
+import java.util.List;
+
+import sv.gob.salud.CitasService.modelos.enums.EstadoEstablecimiento;
 
 public class Establecimiento {
     private Long id;
@@ -14,6 +19,9 @@ public class Establecimiento {
     private LocalDateTime inicioAtencion;
     private LocalDateTime finAtencion;
 
+    public String getNombre() {
+        return nombre;
+    }
 
     private int countEspecialidades () {
         return this.especialidades.size();

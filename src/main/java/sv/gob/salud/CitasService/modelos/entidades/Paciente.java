@@ -1,7 +1,6 @@
 package sv.gob.salud.CitasService.modelos.entidades;
 
 import java.time.LocalDate;
-import sv.gob.salud.CitasService.modelos.enums.Genero;
 
 public class Paciente extends Persona {
     private String codigoPaciente;

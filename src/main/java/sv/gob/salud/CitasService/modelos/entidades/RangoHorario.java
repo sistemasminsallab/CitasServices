@@ -3,6 +3,7 @@ package sv.gob.salud.CitasService.modelos.entidades;
 import java.time.Duration;
 import java.time.LocalTime;
 import java.util.Objects;
+
 import sv.gob.salud.CitasService.modelos.enums.Modalidad;
 
 public class RangoHorario {

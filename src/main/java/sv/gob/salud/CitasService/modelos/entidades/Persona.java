@@ -1,5 +1,4 @@
 package sv.gob.salud.CitasService.modelos.entidades;
-import sv.gob.salud.CitasService.modelos.enums.Genero;
 import sv.gob.salud.CitasService.modelos.excepciones.DatosPersonaInvalidosException;
 
 import java.time.LocalDate;
