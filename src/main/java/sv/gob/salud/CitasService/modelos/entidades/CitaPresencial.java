@@ -1,6 +1,7 @@
 package sv.gob.salud.CitasService.modelos.entidades;
 
 import sv.gob.salud.CitasService.modelos.enums.EstadoCita;
+import sv.gob.salud.CitasService.modelos.enums.Modalidad;
 import sv.gob.salud.CitasService.modelos.enums.Prioridad;
 import sv.gob.salud.CitasService.modelos.enums.TipoCita;
 
@@ -12,13 +13,16 @@ public class CitaPresencial extends Cita {
     private Establecimiento establecimiento;
     private String indicaciones;
 
-    public CitaPresencial(Long id, AgendaMedica agendaMedica, Expediente expediente, int orden, EstadoCita estadoCita, Prioridad prioridad, TipoCita tipo, Cita citaOrigen, LocalDate fechaCita, LocalTime horaInicio, LocalTime horaFin,  String consultorio, Establecimiento establecimiento, String indicaciones){
-        super(id, agendaMedica, expediente, orden, estadoCita, prioridad, tipo, citaOrigen, fechaCita, horaInicio, horaFin);
+    public CitaPresencial(Long id, AgendaMedica agendaMedica, Expediente expediente, int orden, EstadoCita estadoCita,
+            Prioridad prioridad, TipoCita tipo, Cita citaOrigen, LocalDate fechaCita, LocalTime horaInicio,
+            LocalTime horaFin, String consultorio, Establecimiento establecimiento, String indicaciones) {
+        super(id, agendaMedica, expediente, orden, estadoCita, prioridad, tipo, citaOrigen, fechaCita, horaInicio,
+                horaFin);
         setConsultorio(consultorio);
         setEstablecimiento(establecimiento);
         setIndicaciones(indicaciones);
     }
-    
+
     public String getConsultorio() {
         return consultorio;
     }
@@ -44,11 +48,7 @@ public class CitaPresencial extends Cita {
     }
 
     public boolean tieneConsultorioAsignado() {
-        if (consultorio == null || consultorio.isEmpty()) {
-            return false;
-        } else {
-            return true;
-        }
+        return consultorio != null && !consultorio.isEmpty();
     }
 
     public boolean tieneEstablecimientoAsignado() {
@@ -67,8 +67,14 @@ public class CitaPresencial extends Cita {
         }
     }
 
+    @Override
+    public Modalidad modalidad() {
+        return Modalidad.PRESENCIAL;
+    }
+
+    @Override
+    public String detalleLugar() {
+        return obtenerInformacionDeCitaPresencial();
+    }
 
 }
-
-
-
