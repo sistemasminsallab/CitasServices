@@ -1,5 +1,10 @@
 package sv.gob.salud.CitasService.modelos.entidades;
 
+import sv.gob.salud.CitasService.modelos.enums.Genero;
+
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -9,6 +14,13 @@ public class Empleado extends Persona {
     private List<AgendaMedica> agendasMedicas;
     private String descripcion;
 
+    public Empleado(String documentoIdentidad, String nombre, String apellido, Genero genero,
+                    LocalDate fechaNacimiento, String telefono, String correo, String jvpm) {
+        super(documentoIdentidad, nombre,apellido, genero, fechaNacimiento, telefono, correo);
+        this.jvpm = jvpm;
+        this.especialidades = new HashSet<>();
+        this.agendasMedicas = new ArrayList<>();
+    }
 
     public String getJvpm() {
         return jvpm;

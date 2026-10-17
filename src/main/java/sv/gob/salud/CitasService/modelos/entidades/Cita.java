@@ -3,10 +3,11 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 
 import sv.gob.salud.CitasService.modelos.enums.EstadoCita;
+import sv.gob.salud.CitasService.modelos.enums.Modalidad;
 import sv.gob.salud.CitasService.modelos.enums.Prioridad;
 import sv.gob.salud.CitasService.modelos.enums.TipoCita;
 
-public class Cita {
+public abstract class Cita {
 
     private Long id;
     private AgendaMedica agendaMedica;
@@ -129,4 +130,15 @@ public class Cita {
         if (!inicio.isBefore(fin)) { 
             throw new IllegalArgumentException( "La hora de inicio debe ser anterior a la hora final"); } 
     }
+
+    /**
+     * Devuelve el tipo de modalidad (por ejemplo: VIRTUAL, PRESENCIAL, CONVENIO).
+     */
+    public abstract Modalidad modalidad();
+
+    /**
+     * Devuelve el detalle del lugar u orientación de la cita según su modalidad
+     * (por ejemplo: el enlace virtual o el consultorio/sucursal).
+     */
+    public abstract String detalleLugar();
 }

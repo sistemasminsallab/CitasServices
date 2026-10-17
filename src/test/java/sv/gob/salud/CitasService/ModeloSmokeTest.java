@@ -2,9 +2,9 @@ package sv.gob.salud.CitasService;
 
 import org.junit.jupiter.api.Test;
 import sv.gob.salud.CitasService.modelos.entidades.CitaDomiciliaria;
-import sv.gob.salud.CitasService.modelos.entidades.Genero;
 import sv.gob.salud.CitasService.modelos.entidades.Paciente;
 import sv.gob.salud.CitasService.modelos.enums.EstadoCita;
+import sv.gob.salud.CitasService.modelos.enums.Genero;
 import sv.gob.salud.CitasService.modelos.enums.Prioridad;
 import sv.gob.salud.CitasService.modelos.enums.TipoCita;
 import sv.gob.salud.CitasService.modelos.excepciones.DatosPersonaInvalidosException;
@@ -17,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class ModeloSmokeTest {
 
     private Paciente paciente(String dui, LocalDate nacimiento){
-        return new Paciente(dui, "Luis", "Perez", Genero.MASCULINO, nacimiento, null, "1234-24");
+        return new Paciente(dui, "Luis", "Perez", Genero.MASCULINO, nacimiento, "7000-0000", null, "1234-24");
     }
 
     private CitaDomiciliaria visita(String direccion, String referencia){
@@ -65,11 +65,4 @@ public class ModeloSmokeTest {
         assertThrows(IllegalStateException.class,
                 () -> cita.reprogramarCita(LocalDate.now().plusDays(2), LocalTime.of(8, 0), LocalTime.of(9,0)));
     }
-
-
-
-
-
-
-
 }
