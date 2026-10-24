@@ -86,4 +86,26 @@ public class AgendaMedica{
         citas.add(cita);
         return cita;
     }
+
+    public static class Builder {
+        private Long id;
+        private Empleado medico;
+        private Especialidad especialidad;
+        private LocalDate fecha;
+        private RangoHorario rangoHorario;
+        private int cupoMaximo;
+        private boolean activa;
+
+        public Builder setId(Long id) { this.id = id; return this; }
+        public Builder setMedico(Empleado medico) { this.medico = medico; return this; }
+        public Builder setEspecialidad(Especialidad especialidad) { this.especialidad = especialidad; return this; }
+        public Builder setFecha(LocalDate fecha) { this.fecha = fecha; return this; }
+        public Builder setRangoHorario(RangoHorario rangoHorario) { this.rangoHorario = rangoHorario; return this; }
+        public Builder setCupoMaximo(int cupoMaximo) { this.cupoMaximo = cupoMaximo; return this; }
+        public Builder setActiva(boolean activa) { this.activa = activa; return this; }
+
+        public AgendaMedica build() {
+            return new AgendaMedica(id, medico, especialidad, fecha, rangoHorario, cupoMaximo, activa);
+        }
+    }
 }

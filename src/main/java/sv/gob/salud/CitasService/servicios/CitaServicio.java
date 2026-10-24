@@ -11,6 +11,8 @@ import sv.gob.salud.CitasService.modelos.enums.Modalidad;
 import sv.gob.salud.CitasService.modelos.enums.Prioridad;
 import sv.gob.salud.CitasService.modelos.enums.TipoCita;
 import sv.gob.salud.CitasService.modelos.excepciones.CitaNoEncontradaException;
+import sv.gob.salud.CitasService.modelos.fabricas.CitaFactory;
+import sv.gob.salud.CitasService.modelos.fabricas.DatosCita;
 import sv.gob.salud.CitasService.repositorios.AgendaRepositorio;
 import sv.gob.salud.CitasService.repositorios.CitaRepositorio;
 
@@ -19,6 +21,10 @@ import sv.gob.salud.CitasService.repositorios.CitaRepositorio;
 public class CitaServicio {
     private final CitaRepositorio citas;
     private final AgendaRepositorio agendas;
+
+    public Cita agendar(Modalidad modalidad, DatosCita datos) {
+        return CitaFactory.crear(modalidad, datos);
+    }
 
     public CitaServicio(CitaRepositorio citas, AgendaRepositorio agendas) {
         this.citas = citas;

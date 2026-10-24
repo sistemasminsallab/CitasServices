@@ -54,6 +54,9 @@ public abstract class Cita {
         this.horaFin = horaFin;
     }
 
+    
+    public abstract Cita clonarCon(Long nuevoId, LocalDate fecha, LocalTime inicio, LocalTime fin);
+
     /** Cada tipo de cita sabe qué modalidad es y cómo describe su lugar (Polimorfismo / OCP). */
     public abstract Modalidad modalidad();
 

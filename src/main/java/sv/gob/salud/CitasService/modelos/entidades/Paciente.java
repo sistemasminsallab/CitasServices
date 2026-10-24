@@ -24,4 +24,29 @@ public class Paciente extends Persona {
         }
         this.codigoPaciente = codigoPaciente.trim();
     }
+
+    public static class Builder {
+        private Long id;
+        private String documentoidentidad;
+        private String nombre;
+        private String apellido;
+        private Genero genero;
+        private LocalDate fechaNacimiento;
+        private String numeroTelefono;
+        private String correoElectronico;
+        private String codigoPaciente;
+
+        public Builder setDocumentoidentidad(String documentoidentidad) { this.documentoidentidad = documentoidentidad; return this; }
+        public Builder setNombre(String nombre) { this.nombre = nombre; return this; }
+        public Builder setApellido(String apellido) { this.apellido = apellido; return this; }
+        public Builder setGenero(Genero genero) { this.genero = genero; return this; }
+        public Builder setFechaNacimiento(LocalDate fechaNacimiento) { this.fechaNacimiento = fechaNacimiento; return this; }
+        public Builder setNumeroTelefono(String numeroTelefono) { this.numeroTelefono = numeroTelefono; return this; }
+        public Builder setCorreoElectronico(String correoElectronico) { this.correoElectronico = correoElectronico; return this; }
+        public Builder setCodigoPaciente(String codigoPaciente) { this.codigoPaciente = codigoPaciente; return this; }
+
+        public Paciente build() {
+            return new Paciente(documentoidentidad, nombre, apellido, genero, fechaNacimiento, numeroTelefono, correoElectronico, codigoPaciente);
+        }
+    }
 }
