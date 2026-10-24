@@ -59,6 +59,12 @@ public abstract class Cita {
 
     public abstract String detalleLugar();
 
+    /**
+     * Prototype: clona esta cita cambiando solo id y horario, enlazando el original
+     * como citaOrigen. Cada subclase copia además sus campos propios.
+     */
+    public abstract Cita clonarCon(Long nuevoId, LocalDate fecha, LocalTime inicio, LocalTime fin);
+
     // Getters 
     public Long getId(){ 
             return id; 
