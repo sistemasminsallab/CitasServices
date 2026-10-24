@@ -59,6 +59,8 @@ public abstract class Cita {
 
     public abstract String detalleLugar();
 
+    public abstract Cita clonarCon(Long nuevoId, LocalDate fecha, LocalTime inicio, LocalTime fin);
+
     // Getters 
     public Long getId(){ 
             return id; 
