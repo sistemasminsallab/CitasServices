@@ -59,6 +59,8 @@ public abstract class Cita {
 
     public abstract String detalleLugar();
 
+    public abstract Cita clonar();
+
     // Getters 
     public Long getId(){ 
             return id; 

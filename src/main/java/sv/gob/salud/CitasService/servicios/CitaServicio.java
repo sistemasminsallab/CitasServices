@@ -14,7 +14,10 @@ import sv.gob.salud.CitasService.modelos.excepciones.CitaNoEncontradaException;
 import sv.gob.salud.CitasService.repositorios.AgendaRepositorio;
 import sv.gob.salud.CitasService.repositorios.CitaRepositorio;
 
-/** Fabricación pura: orquesta casos de uso; las reglas de negocio siguen en el dominio. */
+/**
+ * Fabricación pura: orquesta casos de uso; las reglas de negocio siguen en el
+ * dominio.
+ */
 @Service
 public class CitaServicio {
     private final CitaRepositorio citas;

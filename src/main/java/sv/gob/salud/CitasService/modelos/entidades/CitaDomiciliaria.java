@@ -31,18 +31,17 @@ public class CitaDomiciliaria extends Cita {
             String referenciaUbicacion) {
 
         super(
-            id,
-            agendaMedica,
-            expediente,
-            orden,
-            estadoCita,
-            prioridad,
-            tipo,
-            citaOrigen,
-            fechaCita,
-            horaInicio,
-            horaFin
-        );
+                id,
+                agendaMedica,
+                expediente,
+                orden,
+                estadoCita,
+                prioridad,
+                tipo,
+                citaOrigen,
+                fechaCita,
+                horaInicio,
+                horaFin);
 
         this.direccionVisita = validarDireccion(direccionVisita);
         this.referenciaUbicacion = Validaciones.textoOpcional(referenciaUbicacion);
@@ -90,5 +89,100 @@ public class CitaDomiciliaria extends Cita {
     @Override
     public String detalleLugar() {
         return obtenerUbicacionCompleta();
+    }
+
+    @Override
+    public Cita clonar() {
+        return new CitaDomiciliaria(getId(), getAgendaMedica(), getExpediente(), getOrden(),
+                getEstadoCita(), getPrioridad(), getTipo(), this, getFechaCita(), getHoraInicio(), getHoraFin(),
+                this.direccionVisita, this.referenciaUbicacion);
+    }
+
+    public static class Builder {
+        private Long id;
+        private AgendaMedica agendaMedica;
+        private Expediente expediente;
+        private int orden;
+        private EstadoCita estadoCita;
+        private Prioridad prioridad;
+        private TipoCita tipo;
+        private Cita citaOrigen;
+        private LocalDate fechaCita;
+        private LocalTime horaInicio;
+        private LocalTime horaFin;
+        private String direccionVisita;
+        private String referenciaUbicacion;
+
+        public Builder id(Long id) {
+            this.id = id;
+            return this;
+        }
+
+        public Builder agendaMedica(AgendaMedica a) {
+            this.agendaMedica = a;
+            return this;
+        }
+
+        public Builder expediente(Expediente e) {
+            this.expediente = e;
+            return this;
+        }
+
+        public Builder orden(int orden) {
+            this.orden = orden;
+            return this;
+        }
+
+        public Builder estadoCita(EstadoCita e) {
+            this.estadoCita = e;
+            return this;
+        }
+
+        public Builder prioridad(Prioridad p) {
+            this.prioridad = p;
+            return this;
+        }
+
+        public Builder tipo(TipoCita t) {
+            this.tipo = t;
+            return this;
+        }
+
+        public Builder citaOrigen(Cita c) {
+            this.citaOrigen = c;
+            return this;
+        }
+
+        public Builder fechaCita(LocalDate f) {
+            this.fechaCita = f;
+            return this;
+        }
+
+        public Builder horaInicio(LocalTime h) {
+            this.horaInicio = h;
+            return this;
+        }
+
+        public Builder horaFin(LocalTime h) {
+            this.horaFin = h;
+            return this;
+        }
+
+        public Builder direccionVisita(String i) {
+            this.direccionVisita = i;
+            return this;
+        }
+
+        public Builder referenciaUbicacion(String i) {
+            this.referenciaUbicacion = i;
+            return this;
+        }
+
+        // La validación vive en el constructor: el Builder solo lo invoca (fail-fast)
+        public CitaDomiciliaria build() {
+            return new CitaDomiciliaria(id, agendaMedica, expediente, orden, estadoCita,
+                    prioridad, tipo, citaOrigen, fechaCita, horaInicio, horaFin,
+                    direccionVisita, referenciaUbicacion);
+        }
     }
 }
