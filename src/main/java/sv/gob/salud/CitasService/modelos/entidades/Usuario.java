@@ -4,12 +4,11 @@ import java.util.Objects;
 
 import sv.gob.salud.CitasService.modelos.enums.Roles;
 
-public class Usuario extends Persona {
+public class Usuario {
     private String nombreUsuario;
     private Roles rolSistema;
-    private boolean activo;
-    private String contrasena;
-
+    private boolean activo = true;
+    
     // * Constructores
     public Usuario() {}
 
