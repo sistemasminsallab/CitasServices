@@ -9,12 +9,10 @@ import java.util.Set;
 import sv.gob.salud.CitasService.modelos.enums.Genero;
 
 public class Empleado extends Persona {
-    
     private String jvpm;
     private Set<Especialidad> especialidades;
     private List<AgendaMedica> agendasMedicas;
     private String descripcion;
-
 
     public Empleado(String documentoidentidad, String nombre, String apellido, Genero genero,
                     LocalDate fechaNacimiento, String telefono, String correo, String jvpm) {
@@ -49,30 +47,14 @@ public class Empleado extends Persona {
     }
 
     public boolean tieneEspecialidadesAsignadas() {
-        if (especialidades == null || especialidades.isEmpty()) {
-            return false;
-        } else {
-            return true;
-        }
+        return especialidades != null && !especialidades.isEmpty();
     }
 
     public boolean tieneAgendasMedicasAsignadas() {
-        if (agendasMedicas == null || agendasMedicas.isEmpty()) {
-            return false;
-        } else {
-            return true;
-        }
+        return agendasMedicas != null && !agendasMedicas.isEmpty();
     }
 
     public int cantidadDeEspecialidadesAsignadas() {
-        if (especialidades == null) {
-            return 0;
-        } else {
-            return especialidades.size();
-        }
+        return especialidades == null ? 0 : especialidades.size();
     }
-    
-    
-    
-
 }

@@ -73,5 +73,4 @@ class ModeloSmokeTest {
         assertThrows(IllegalStateException.class,
                 () -> cita.reprogramarCita(LocalDate.now().plusDays(2), LocalTime.of(8, 0), LocalTime.of(9, 0)));
     }
-
 }
