@@ -49,4 +49,62 @@ public class CitaVirtual extends Cita {
     public String detalleLugar() {
         return enlaceDeCitaVirtual();
     }
+
+    @Override
+    public CitaVirtual clonarCon(Long nuevoId, LocalDate fecha, LocalTime inicio, LocalTime fin) {
+        return new CitaVirtual.Builder()
+                .id(nuevoId)
+                .agendaMedica(getAgendaMedica())
+                .expediente(getExpediente())
+                .orden(getOrden())
+                .estadoCita(EstadoCita.PROGRAMADA)
+                .prioridad(getPrioridad())
+                .tipo(getTipo())
+                .citaOrigen(this)
+                .fechaCita(fecha)
+                .horaInicio(inicio)
+                .horaFin(fin)
+                .url(this.getUrl())
+                .plataforma(this.getPlataforma())
+                .build();
+    }
+
+    // Aquí agregas el Builder justo antes de cerrar la clase principal
+    public static class Builder {
+        private Long id;
+        private AgendaMedica agendaMedica;
+        private Expediente expediente;
+        private int orden;
+        private EstadoCita estadoCita;
+        private Prioridad prioridad;
+        private TipoCita tipo;
+        private Cita citaOrigen;
+        private LocalDate fechaCita;
+        private LocalTime horaInicio;
+        private LocalTime horaFin;
+        private String url;
+        private String plataforma;
+
+        public Builder id(Long id) { this.id = id; return this; }
+        public Builder agendaMedica(AgendaMedica a) { this.agendaMedica = a; return this; }
+        public Builder expediente(Expediente e) { this.expediente = e; return this; }
+        public Builder orden(int orden) { this.orden = orden; return this; }
+        public Builder estadoCita(EstadoCita e) { this.estadoCita = e; return this; }
+        public Builder prioridad(Prioridad p) { this.prioridad = p; return this; }
+        public Builder tipo(TipoCita t) { this.tipo = t; return this; }
+        public Builder citaOrigen(Cita c) { this.citaOrigen = c; return this; }
+        public Builder fechaCita(LocalDate f) { this.fechaCita = f; return this; }
+        public Builder horaInicio(LocalTime h) { this.horaInicio = h; return this; }
+        public Builder horaFin(LocalTime h) { this.horaFin = h; return this; }
+        
+        // Atributos específicos de la cita virtual
+        public Builder url(String u) { this.url = u; return this; }
+        public Builder plataforma(String p) { this.plataforma = p; return this; }
+
+        public CitaVirtual build() {
+            return new CitaVirtual(id, agendaMedica, expediente, orden, estadoCita,
+                    prioridad, tipo, citaOrigen, fechaCita, horaInicio, horaFin,
+                    url, plataforma);
+        }
+    }
 }
