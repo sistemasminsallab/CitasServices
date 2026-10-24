@@ -36,11 +36,11 @@ public class CitaControlador {
         return CitaRespuesta.de(servicio.obtenerCita(id));
     }
 
-    @PostMapping("/citas")
+    /*@PostMapping("/citas")
     @ResponseStatus(HttpStatus.CREATED)
     public CitaRespuesta agendar(@RequestBody AgendarCitaSolicitud solicitud) {
         return CitaRespuesta.de(servicio.agendar(solicitud));
-    }
+    }*/
 
     @GetMapping("/agendas")
     public List<AgendaRespuesta> listarAgendas() {

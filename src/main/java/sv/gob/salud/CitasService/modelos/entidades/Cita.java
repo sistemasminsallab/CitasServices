@@ -147,4 +147,7 @@ public abstract class Cita {
         if (!inicio.isBefore(fin)) { 
             throw new IllegalArgumentException( "La hora de inicio debe ser anterior a la hora final"); } 
     }
+
+    // en Cita (ahora abstract):
+    public abstract Cita clonarCon(Long nuevoId, LocalDate fecha, LocalTime inicio, LocalTime fin);
 }
