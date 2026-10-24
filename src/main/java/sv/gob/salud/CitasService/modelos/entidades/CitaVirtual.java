@@ -1,9 +1,21 @@
 package sv.gob.salud.CitasService.modelos.entidades;
 
-public class CitaVirtual {
-    private Long id;
+import sv.gob.salud.CitasService.modelos.enums.EstadoCita;
+import sv.gob.salud.CitasService.modelos.enums.Prioridad;
+import sv.gob.salud.CitasService.modelos.enums.TipoCita;
+
+import java.time.LocalDate;
+import java.time.LocalTime;
+
+public class CitaVirtual extends Cita {
     private String url;
     private String plataforma;
+
+    public CitaVirtual(Long id, AgendaMedica agendaMedica, Expediente expediente, int orden, EstadoCita estadoCita, Prioridad prioridad, TipoCita tipo, Cita citaOrigen, LocalDate fechaCita, LocalTime horaInicio, LocalTime horaFin, String url, String plataforma) {
+        super(id, agendaMedica, expediente, orden, estadoCita, prioridad, tipo, citaOrigen, fechaCita, horaInicio, horaFin);
+        setUrl(url);
+        setPlataforma(plataforma);
+    }
 
     public String getUrl() {
         return url;
