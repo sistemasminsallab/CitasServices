@@ -7,10 +7,12 @@ import org.springframework.stereotype.Service;
 import sv.gob.salud.CitasService.dto.AgendarCitaSolicitud;
 import sv.gob.salud.CitasService.modelos.entidades.AgendaMedica;
 import sv.gob.salud.CitasService.modelos.entidades.Cita;
+import sv.gob.salud.CitasService.modelos.enums.EstadoCita;
 import sv.gob.salud.CitasService.modelos.enums.Modalidad;
 import sv.gob.salud.CitasService.modelos.enums.Prioridad;
 import sv.gob.salud.CitasService.modelos.enums.TipoCita;
 import sv.gob.salud.CitasService.modelos.excepciones.CitaNoEncontradaException;
+import sv.gob.salud.CitasService.notificaciones.ObservadorCita;
 import sv.gob.salud.CitasService.repositorios.AgendaRepositorio;
 import sv.gob.salud.CitasService.repositorios.CitaRepositorio;
 
@@ -19,11 +21,13 @@ import sv.gob.salud.CitasService.repositorios.CitaRepositorio;
 public class CitaServicio {
     private final CitaRepositorio citas;
     private final AgendaRepositorio agendas;
+   private final List<ObservadorCita> observadores;
 
-    public CitaServicio(CitaRepositorio citas, AgendaRepositorio agendas) {
-        this.citas = citas;
-        this.agendas = agendas;
-    }
+public CitaServicio(CitaRepositorio citas, AgendaRepositorio agendas, List<ObservadorCita> observadores) {
+    this.citas = citas;
+    this.agendas = agendas;
+    this.observadores = observadores;
+}
 
     public List<Cita> listarCitas() {
         return citas.buscarCitas();
@@ -49,4 +53,14 @@ public class CitaServicio {
         return agenda.agendarPresencial(id, null, Prioridad.NORMAL, TipoCita.PRIMERA_VEZ,
                 solicitud.horaInicio(), solicitud.horaFin(), "Consultorio 1", null);
     }
+     /**
+         * Sujeto del Observer: confirma la cita y notifica a todos los observadores.
+         * El servicio no conoce las clases concretas; solo recorre la lista (OCP).
+         */
+        public Cita confirmarCita(Long id) {
+            Cita cita = obtenerCita(id);
+            cita.cambiarEstadoCita(EstadoCita.CONFIRMADA);
+            observadores.forEach(observador -> observador.alConfirmar(cita));
+            return cita;
+        }
 }
