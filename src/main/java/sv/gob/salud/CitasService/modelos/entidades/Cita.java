@@ -111,12 +111,19 @@ public abstract class Cita {
     }
 
     //metodos
-    public void cambiarEstadoCita(EstadoCita estadoCita){
-        if (estadoCita == null) { 
-            throw new IllegalArgumentException( "El estado de la cita no puede ser nulo"); 
-        } 
-        
-        this.estadoCita = estadoCita;
+    public void cambiarEstadoCita(EstadoCita nuevoEstado) {
+        if (nuevoEstado == null) {
+            throw new IllegalArgumentException("El estado de la cita no puede ser nulo");
+        }
+
+        // Máquina de estados: solo se permiten transiciones legales (la regla vive en
+        // EstadoCita).
+        if (!estadoCita.puedePasarA(nuevoEstado)) {
+            throw new IllegalStateException(
+                    "Transición inválida: no se puede pasar de " + estadoCita + " a " + nuevoEstado);
+        }
+
+        this.estadoCita = nuevoEstado;
     }
 
     public void reprogramarCita(LocalDate fechaCita, LocalTime horaInicio, LocalTime horaFin ){
@@ -144,7 +151,7 @@ public abstract class Cita {
         return estadoCita == EstadoCita.CANCELADA;
     }
 
-    // Validar fecha y horario 
+    // // Validar fecha y horario 
     private void validarHorario( LocalDate fecha, LocalTime inicio, LocalTime fin) { 
         if (fecha == null || inicio == null || fin == null) { 
             throw new IllegalArgumentException( "La fecha y las horas son obligatorias"); 
@@ -153,4 +160,5 @@ public abstract class Cita {
         if (!inicio.isBefore(fin)) { 
             throw new IllegalArgumentException( "La hora de inicio debe ser anterior a la hora final"); } 
     }
+
 }

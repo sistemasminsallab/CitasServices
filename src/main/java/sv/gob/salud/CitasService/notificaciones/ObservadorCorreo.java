@@ -3,6 +3,7 @@ package sv.gob.salud.CitasService.notificaciones;
 import org.springframework.stereotype.Component;
 
 import sv.gob.salud.CitasService.modelos.entidades.Cita;
+import sv.gob.salud.CitasService.modelos.enums.EstadoCita;
 
 /**
  * Observador concreto: avisa por correo cuando la cita se confirma.
@@ -12,7 +13,8 @@ import sv.gob.salud.CitasService.modelos.entidades.Cita;
 public class ObservadorCorreo implements ObservadorCita {
 
     @Override
-    public void alConfirmar(Cita cita) {
-        System.out.println("[correo] Cita " + cita.getId() + " confirmada; se notifica al paciente");
+    public void alCambiarEstado(Cita cita, EstadoCita nuevoEstado) {
+        System.out.println("[correo] Cita " + cita.getId() + " cambió a " + nuevoEstado
+                + "; se notifica al paciente");
     }
 }
