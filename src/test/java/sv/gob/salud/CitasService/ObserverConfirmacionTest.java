@@ -21,8 +21,10 @@ import sv.gob.salud.CitasService.repositorios.RepositorioMemoria;
 import sv.gob.salud.CitasService.servicios.CitaServicio;
 
 /**
- * Observer: al confirmar una cita, el servicio notifica a todos los observadores
- * sin conocer sus clases concretas. Agregar un observador no cambia el servicio (OCP).
+ * Observer: al confirmar una cita, el servicio notifica a todos los
+ * observadores
+ * sin conocer sus clases concretas. Agregar un observador no cambia el servicio
+ * (OCP).
  */
 class ObserverConfirmacionTest {
 
@@ -30,11 +32,13 @@ class ObserverConfirmacionTest {
     private static class ObservadorSpy implements ObservadorCita {
         boolean notificado = false;
         Cita recibida;
+        EstadoCita estadoRecibido;
 
         @Override
-        public void alConfirmar(Cita cita) {
+        public void alCambiarEstado(Cita cita, EstadoCita nuevoEstado) {
             notificado = true;
             recibida = cita;
+            estadoRecibido = nuevoEstado;
         }
     }
 

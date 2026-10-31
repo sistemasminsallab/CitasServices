@@ -1,4 +1,5 @@
 package sv.gob.salud.CitasService.modelos.entidades;
+
 import java.time.LocalDate;
 import java.time.LocalTime;
 
@@ -21,7 +22,7 @@ public abstract class Cita {
     private LocalTime horaInicio;
     private LocalTime horaFin;
 
-    public Cita(Long id, 
+    public Cita(Long id,
             AgendaMedica agendaMedica,
             Expediente expediente,
             int orden,
@@ -33,12 +34,12 @@ public abstract class Cita {
             LocalTime horaInicio,
             LocalTime horaFin) {
 
-        if (id == null || id <= 0) { 
-            throw new IllegalArgumentException( "El ID debe ser mayor que cero"); 
+        if (id == null || id <= 0) {
+            throw new IllegalArgumentException("El ID debe ser mayor que cero");
         }
 
-        if (orden <= 0) { 
-            throw new IllegalArgumentException( "El orden debe ser mayor que cero"); 
+        if (orden <= 0) {
+            throw new IllegalArgumentException("El orden debe ser mayor que cero");
         }
 
         this.id = id;
@@ -54,7 +55,10 @@ public abstract class Cita {
         this.horaFin = horaFin;
     }
 
-    /** Cada tipo de cita sabe qué modalidad es y cómo describe su lugar (Polimorfismo / OCP). */
+    /**
+     * Cada tipo de cita sabe qué modalidad es y cómo describe su lugar
+     * (Polimorfismo / OCP).
+     */
     public abstract Modalidad modalidad();
 
     public abstract String detalleLugar();
@@ -65,64 +69,71 @@ public abstract class Cita {
      */
     public abstract Cita clonarCon(Long nuevoId, LocalDate fecha, LocalTime inicio, LocalTime fin);
 
-    // Getters 
-    public Long getId(){ 
-            return id; 
-        } 
-    
-    public AgendaMedica getAgendaMedica(){ 
-            return agendaMedica; 
-        } 
-        
-    public Expediente getExpediente(){ 
-        return expediente; 
-    } 
-    
-    public int getOrden(){ 
-        return orden; 
-    } 
-    
-    public EstadoCita getEstadoCita(){ 
-        return estadoCita; 
-    } 
-    
-    public Prioridad getPrioridad(){ 
-        return prioridad; 
-    } 
-    
-    public TipoCita getTipo(){ 
-        return tipo; 
-    }  
-    
-    public Cita getCitaOrigen(){ 
+    // Getters
+    public Long getId() {
+        return id;
+    }
+
+    public AgendaMedica getAgendaMedica() {
+        return agendaMedica;
+    }
+
+    public Expediente getExpediente() {
+        return expediente;
+    }
+
+    public int getOrden() {
+        return orden;
+    }
+
+    public EstadoCita getEstadoCita() {
+        return estadoCita;
+    }
+
+    public Prioridad getPrioridad() {
+        return prioridad;
+    }
+
+    public TipoCita getTipo() {
+        return tipo;
+    }
+
+    public Cita getCitaOrigen() {
         return citaOrigen;
-     } 
-     
-     public LocalDate getFechaCita(){ 
-        return fechaCita; 
-    } 
-    
-    public LocalTime getHoraInicio(){ 
-        return horaInicio; 
-    } 
-    
-    public LocalTime getHoraFin(){ 
-        return horaFin; 
     }
 
-    //metodos
-    public void cambiarEstadoCita(EstadoCita estadoCita){
-        if (estadoCita == null) { 
-            throw new IllegalArgumentException( "El estado de la cita no puede ser nulo"); 
-        } 
-        
-        this.estadoCita = estadoCita;
+    public LocalDate getFechaCita() {
+        return fechaCita;
     }
 
-    public void reprogramarCita(LocalDate fechaCita, LocalTime horaInicio, LocalTime horaFin ){
+    public LocalTime getHoraInicio() {
+        return horaInicio;
+    }
 
-        if (estaCancelada()) { 
-            throw new IllegalStateException( "No se puede reprogramar una cita cancelada"); 
+    public LocalTime getHoraFin() {
+        return horaFin;
+    }
+
+    // metodos
+    public void cambiarEstadoCita(EstadoCita nuevoEstado) {
+        if (nuevoEstado == null) {
+            throw new IllegalArgumentException("El estado de la cita no puede ser nulo");
+        }
+
+        // Máquina de estados: solo se permiten transiciones legales (la regla vive en
+        // EstadoCita).
+        if (!estadoCita.puedePasarA(nuevoEstado)) {
+            throw new IllegalStateException(
+                    "Transición inválida: no se puede pasar de " + estadoCita + " a " + nuevoEstado);
+        }
+
+        this.estadoCita = nuevoEstado;
+    }
+
+    public void reprogramarCita(LocalDate fechaCita, LocalTime horaInicio, LocalTime horaFin) {
+
+        if (estaCancelada()) {
+            throw new IllegalStateException("No se puede reprogramar una cita cancelada");
         }
 
         validarHorario(fechaCita, horaInicio, horaFin);
@@ -132,7 +143,9 @@ public abstract class Cita {
         this.horaFin = horaFin;
     }
 
-    /** Experto: la cita tiene fecha y horas, así que ella decide si choca con otra. */
+    /**
+     * Experto: la cita tiene fecha y horas, así que ella decide si choca con otra.
+     */
     public boolean seSolapaCon(Cita otra) {
         if (otra == null || estaCancelada() || otra.estaCancelada() || !fechaCita.equals(otra.fechaCita)) {
             return false;
@@ -144,13 +157,14 @@ public abstract class Cita {
         return estadoCita == EstadoCita.CANCELADA;
     }
 
-    // Validar fecha y horario 
-    private void validarHorario( LocalDate fecha, LocalTime inicio, LocalTime fin) { 
-        if (fecha == null || inicio == null || fin == null) { 
-            throw new IllegalArgumentException( "La fecha y las horas son obligatorias"); 
-        } 
-        
-        if (!inicio.isBefore(fin)) { 
-            throw new IllegalArgumentException( "La hora de inicio debe ser anterior a la hora final"); } 
+    // Validar fecha y horario
+    private void validarHorario(LocalDate fecha, LocalTime inicio, LocalTime fin) {
+        if (fecha == null || inicio == null || fin == null) {
+            throw new IllegalArgumentException("La fecha y las horas son obligatorias");
+        }
+
+        if (!inicio.isBefore(fin)) {
+            throw new IllegalArgumentException("La hora de inicio debe ser anterior a la hora final");
+        }
     }
 }
