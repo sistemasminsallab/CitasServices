@@ -27,15 +27,16 @@ import sv.gob.salud.CitasService.servicios.CitaServicio;
  */
 class ObserverConfirmacionTest {
 
-    /** Observador de prueba: anota si fue notificado y con qué cita. */
     private static class ObservadorSpy implements ObservadorCita {
         boolean notificado = false;
         Cita recibida;
+        EstadoCita estadoRecibido;
 
         @Override
-        public void alConfirmar(Cita cita) {
+        public void alCambiarEstado(Cita cita, EstadoCita nuevoEstado) {
             notificado = true;
             recibida = cita;
+            estadoRecibido = nuevoEstado;
         }
     }
 
