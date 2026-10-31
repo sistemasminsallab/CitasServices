@@ -14,16 +14,29 @@ import sv.gob.salud.CitasService.modelos.excepciones.CitaNoEncontradaException;
 import sv.gob.salud.CitasService.repositorios.AgendaRepositorio;
 import sv.gob.salud.CitasService.repositorios.CitaRepositorio;
 
-/** Fabricación pura: orquesta casos de uso; las reglas de negocio siguen en el dominio. */
+import sv.gob.salud.CitasService.modelos.enums.EstadoCita;
+import sv.gob.salud.CitasService.notificaciones.ObservadorCita;
+
+/**
+ * Fabricación pura: orquesta casos de uso; las reglas de negocio siguen en el
+ * dominio.
+ */
 @Service
 public class CitaServicio {
     private final CitaRepositorio citas;
     private final AgendaRepositorio agendas;
 
-    public CitaServicio(CitaRepositorio citas, AgendaRepositorio agendas) {
+    /**
+     * Observer: Spring inyecta aquí todos los beans que implementan ObservadorCita.
+     */
+    private final List<ObservadorCita> observadores;
+
+    public CitaServicio(CitaRepositorio citas, AgendaRepositorio agendas, List<ObservadorCita> observadores) {
         this.citas = citas;
         this.agendas = agendas;
+        this.observadores = observadores;
     }
+
 
     public List<Cita> listarCitas() {
         return citas.buscarCitas();
@@ -48,5 +61,16 @@ public class CitaServicio {
         }
         return agenda.agendarPresencial(id, null, Prioridad.NORMAL, TipoCita.PRIMERA_VEZ,
                 solicitud.horaInicio(), solicitud.horaFin(), "Consultorio 1", null);
+    }
+
+    /**
+     * Sujeto del Observer: confirma la cita y notifica a todos los observadores.
+     * El servicio no conoce las clases concretas; solo recorre la lista (OCP).
+     */
+    public Cita confirmarCita(Long id) {
+        Cita cita = obtenerCita(id);
+        cita.cambiarEstadoCita(EstadoCita.CONFIRMADA);
+        observadores.forEach(observador -> observador.alConfirmar(cita));
+        return cita;
     }
 }
