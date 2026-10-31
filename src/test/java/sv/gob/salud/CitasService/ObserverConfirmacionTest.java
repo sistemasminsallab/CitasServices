@@ -31,13 +31,16 @@ class ObserverConfirmacionTest {
     private static class ObservadorSpy implements ObservadorCita {
         boolean notificado = false;
         Cita recibida;
+        EstadoCita nuevoEstado;
 
         @Override
-        public void alConfirmar(Cita cita) {
+        public void alCambiarEstado(Cita cita, EstadoCita nuevoEstado) {
             notificado = true;
             recibida = cita;
+            this.nuevoEstado = nuevoEstado;
         }
     }
+    
 
     private RepositorioMemoria repositorio;
 
