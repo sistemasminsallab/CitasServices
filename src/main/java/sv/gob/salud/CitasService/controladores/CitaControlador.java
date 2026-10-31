@@ -46,4 +46,9 @@ public class CitaControlador {
     public List<AgendaRespuesta> listarAgendas() {
         return servicio.listarAgendas().stream().map(AgendaRespuesta::de).toList();
     }
+
+    @PostMapping("/citas/{id}/confirmacion")
+    public CitaRespuesta confirmarCita(@PathVariable Long id) {
+        return CitaRespuesta.de(servicio.confirmarCita(id));
+    }
 }

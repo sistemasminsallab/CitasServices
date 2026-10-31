@@ -13,16 +13,33 @@ import sv.gob.salud.CitasService.modelos.enums.TipoCita;
 import sv.gob.salud.CitasService.modelos.excepciones.CitaNoEncontradaException;
 import sv.gob.salud.CitasService.repositorios.AgendaRepositorio;
 import sv.gob.salud.CitasService.repositorios.CitaRepositorio;
+import sv.gob.salud.CitasService.modelos.enums.EstadoCita;
+import sv.gob.salud.CitasService.notificaciones.ObservadorCita;
 
 /** Fabricación pura: orquesta casos de uso; las reglas de negocio siguen en el dominio. */
 @Service
 public class CitaServicio {
     private final CitaRepositorio citas;
     private final AgendaRepositorio agendas;
+    
+    //patron observer.
+    private final List<ObservadorCita> observadores;
 
-    public CitaServicio(CitaRepositorio citas, AgendaRepositorio agendas) {
+    public CitaServicio(CitaRepositorio citas, AgendaRepositorio agendas, List<ObservadorCita> observadores) {
         this.citas = citas;
         this.agendas = agendas;
+        this.observadores = observadores;
+    }
+
+    /**
+     * Sujeto del Observer: confirma la cita y notifica a todos los observadores.
+     * El servicio no conoce las clases concretas; solo recorre la lista (OCP).
+     */
+    public Cita confirmarCita(Long id) {
+        Cita cita = obtenerCita(id);
+        cita.cambiarEstadoCita(EstadoCita.CONFIRMADA);
+        observadores.forEach(observador -> observador.alConfirmar(cita));
+        return cita;
     }
 
     public List<Cita> listarCitas() {
