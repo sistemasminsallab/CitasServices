@@ -23,7 +23,7 @@ import java.time.LocalTime;
  * dominio.
  */
 @Service
-public class CitaServicio {
+public class CitaServicio implements OperacionesCita {
     private final CitaRepositorio citas;
     private final AgendaRepositorio agendas;
     private final List<ObservadorCita> observadores;

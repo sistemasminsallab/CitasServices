@@ -95,4 +95,4 @@ class CicloVidaCitaTest {
         assertTrue(EstadoCita.CANCELADA.esFinal());
         assertThrows(IllegalStateException.class, () -> servicio.confirmarCita(10L));
     }
-}
+}   
