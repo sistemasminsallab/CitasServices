@@ -27,12 +27,20 @@ public class ObserverConfirmationTest {
   private static class ObservadorSpy implements ObservadorCita {
       boolean notificado = false;
       Cita recibida;
+      EstadoCita estadoRecibido;
 
       @Override
       public void alConfirmar(Cita cita) {
           notificado = true;
           recibida = cita;
       }
+
+    @Override
+    public void alCambiarEstado(Cita cita, EstadoCita nuevoEstado) {
+        notificado = true;
+        recibida = cita;
+        estadoRecibido = nuevoEstado;
+    }
   }
 
   private RepositorioMemoria repositorio;

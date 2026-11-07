@@ -111,12 +111,18 @@ public abstract class Cita {
     }
 
     //metodos
-    public void cambiarEstadoCita(EstadoCita estadoCita){
-        if (estadoCita == null) { 
-            throw new IllegalArgumentException( "El estado de la cita no puede ser nulo"); 
+    public void cambiarEstadoCita(EstadoCita nuevoEstado){
+        if (nuevoEstado == null) { 
+            throw new IllegalStateException( "El estado de la cita no puede ser nulo"); 
         } 
         
-        this.estadoCita = estadoCita;
+        // this.estadoCita = estadoCita;
+
+        if (!estadoCita.puedePasarA(nuevoEstado)) { 
+            throw new IllegalStateException( "Transaccion invalida: no se puede pasar de " + estadoCita + " a " + nuevoEstado); 
+        }
+
+        this.estadoCita = nuevoEstado;
     }
 
     public void reprogramarCita(LocalDate fechaCita, LocalTime horaInicio, LocalTime horaFin ){
