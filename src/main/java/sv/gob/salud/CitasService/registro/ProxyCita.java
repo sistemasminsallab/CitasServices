@@ -1,6 +1,7 @@
 package sv.gob.salud.CitasService.registro;
 
 import java.lang.reflect.Proxy;
+import java.util.Map;
 import java.util.function.Consumer;
 
 import sv.gob.salud.CitasService.servicios.OperacionesCita;
@@ -9,7 +10,8 @@ import sv.gob.salud.CitasService.servicios.OperacionesCita;
  * Fábrica del Proxy dinámico sobre {@link OperacionesCita}.
  *
  * <p>Devuelve un objeto que tiene la <b>misma interfaz</b> que el servicio real; el cliente lo usa
- * igual y no nota que hay un proxy en medio. Cada llamada pasa por {@link ManejadorRegistro}.
+ * igual y no nota que hay un proxy en medio. Cada fábrica selecciona el handler de su aspecto.
+ * Como todas devuelven la misma interfaz, un proxy también puede envolver a otro proxy.
  */
 public final class ProxyCita {
 
@@ -22,5 +24,21 @@ public final class ProxyCita {
                 real.getClass().getClassLoader(),
                 new Class<?>[] { OperacionesCita.class },
                 new ManejadorRegistro(real, bitacora));
+    }
+
+    /** Envuelve el servicio en modo solo lectura: permite consultas y bloquea modificaciones. */
+    public static OperacionesCita soloLectura(OperacionesCita real) {
+        return (OperacionesCita) Proxy.newProxyInstance(
+                real.getClass().getClassLoader(),
+                new Class<?>[] { OperacionesCita.class },
+                new ManejadorSoloLectura(real));
+    }
+
+    /** Envuelve el servicio contando las llamadas a cada método en el mapa recibido. */
+    public static OperacionesCita conContador(OperacionesCita real, Map<String, Integer> conteo) {
+        return (OperacionesCita) Proxy.newProxyInstance(
+                real.getClass().getClassLoader(),
+                new Class<?>[] { OperacionesCita.class },
+                new ManejadorContador(real, conteo));
     }
 }
