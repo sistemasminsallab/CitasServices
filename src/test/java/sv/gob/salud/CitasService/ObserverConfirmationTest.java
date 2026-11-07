@@ -29,9 +29,10 @@ public class ObserverConfirmationTest {
       Cita recibida;
 
       @Override
-      public void alConfirmar(Cita cita) {
-          notificado = true;
-          recibida = cita;
+      public void alCambiarEstado(Cita cita, EstadoCita nuevoEstado) {
+        notificado = true;
+        recibida = cita;
+        System.out.println("Cita " + cita.getId() + " cambió a " + cita.getEstadoCita());
       }
   }
 

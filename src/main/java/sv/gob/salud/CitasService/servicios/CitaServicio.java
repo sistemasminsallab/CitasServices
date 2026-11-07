@@ -23,13 +23,12 @@ import sv.gob.salud.CitasService.repositorios.CitaRepositorio;
 public class CitaServicio implements OperacionesCita {
     private final CitaRepositorio citas;
     private final AgendaRepositorio agendas;
-
+    /** Observer: Spring inyecta aquí todos los beans que implementan ObservadorCita. */
     private final List<ObservadorCita> observadores;
 
     public CitaServicio(CitaRepositorio citas, AgendaRepositorio agendas, List<ObservadorCita> observadores) {
         this.citas = citas;
         this.agendas = agendas;
-
         this.observadores = observadores;
     }
 
@@ -59,9 +58,39 @@ public class CitaServicio implements OperacionesCita {
     }
 
     public Cita confirmarCita(Long id) {
+        return cambiarEstado(id, EstadoCita.CONFIRMADA);
+    }
+
+    public Cita cancelarCita(Long id) {
+        return cambiarEstado(id, EstadoCita.CANCELADA);
+    }
+
+    public Cita atenderCita(Long id) {
+        return cambiarEstado(id, EstadoCita.ATENDIDA);
+    }
+
+    public Cita marcarNoAsistio(Long id) {
+        return cambiarEstado(id, EstadoCita.NO_ASISTIO);
+    }
+
+    public Cita reprogramarCita(Long id, LocalDate fecha, LocalTime inicio, LocalTime fin) {
         Cita cita = obtenerCita(id);
-        cita.cambiarEstadoCita(EstadoCita.CONFIRMADA);
-        observadores.forEach(observador -> observador.alConfirmar(cita));
+        cita.reprogramarCita(fecha, inicio, fin); // mueve el horario (valida no-cancelada y horario)
+        return aplicarTransicion(cita, EstadoCita.REPROGRAMADA);
+    }
+
+    /**
+     * Sujeto del Observer: aplica la transición de estado a la cita y notifica a los observadores.
+     * Un solo lugar concentra "cambiar estado + avisar", así cada caso de uso es una línea y la
+     * máquina de estados ({@link EstadoCita}) rechaza las transiciones ilegales.
+     */
+    private Cita cambiarEstado(Long id, EstadoCita nuevoEstado) {
+        return aplicarTransicion(obtenerCita(id), nuevoEstado);
+    }
+
+    private Cita aplicarTransicion(Cita cita, EstadoCita nuevoEstado) {
+        cita.cambiarEstadoCita(nuevoEstado);
+        observadores.forEach(observador -> observador.alCambiarEstado(cita, nuevoEstado));
         return cita;
     }
 }
