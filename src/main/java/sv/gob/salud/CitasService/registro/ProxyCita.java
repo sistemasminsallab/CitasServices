@@ -23,4 +23,12 @@ public final class ProxyCita {
                 new Class<?>[] { OperacionesCita.class },
                 new ManejadorRegistro(real, bitacora));
     }
+
+    /** Envuelve el servicio en modo solo lectura: bloquea las operaciones que modifican. */
+    public static OperacionesCita soloLectura(OperacionesCita real) {
+        return (OperacionesCita) Proxy.newProxyInstance(
+                real.getClass().getClassLoader(),
+                new Class<?>[] { OperacionesCita.class },
+                new ManejadorSoloLectura(real));
+    }
 }
