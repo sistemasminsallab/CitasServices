@@ -51,6 +51,8 @@ class ProxyRegistroCitaTest {
 
     @Test
     void elProxyDelegaEnElServicioRealYRegistraLaOperacion() {
+        
+        /* Confirmar Cita */
         Cita confirmada = servicioConRegistro.confirmarCita(10L);
 
         // Delegó: el resultado del negocio es el mismo que llamando al servicio real.

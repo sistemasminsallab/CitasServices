@@ -24,6 +24,13 @@ public class ManejadorRegistro implements InvocationHandler {
 
     @Override
     public Object invoke(Object proxy, Method metodo, Object[] args) throws Throwable {
+        // Los métodos de Object (toString, hashCode, equals) no son operaciones de negocio:
+        // se delegan sin medir ni registrar. Si no, cualquier inspección del proxy (el panel de
+        // variables del IDE, un logger, el depurador) llamaría a toString() y ensuciaría la
+        // bitácora, volviendo el registro no determinista. Spring AOP hace esta misma exclusión.
+        if (metodo.getDeclaringClass() == Object.class) {
+            return metodo.invoke(real, args);
+        }
         long inicio = System.nanoTime();
         try {
             return metodo.invoke(real, args); // delega en el servicio real
