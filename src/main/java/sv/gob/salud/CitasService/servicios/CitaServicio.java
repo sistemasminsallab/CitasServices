@@ -1,5 +1,7 @@
 package sv.gob.salud.CitasService.servicios;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -18,7 +20,7 @@ import sv.gob.salud.CitasService.repositorios.CitaRepositorio;
 
 /** Fabricación pura: orquesta casos de uso; las reglas de negocio siguen en el dominio. */
 @Service
-public class CitaServicio {
+public class CitaServicio implements OperacionesCita {
     private final CitaRepositorio citas;
     private final AgendaRepositorio agendas;
 
