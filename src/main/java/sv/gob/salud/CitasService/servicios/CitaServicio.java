@@ -20,7 +20,7 @@ import sv.gob.salud.CitasService.repositorios.CitaRepositorio;
 
 /** Fabricación pura: orquesta casos de uso; las reglas de negocio siguen en el dominio. */
 @Service
-public class CitaServicio {
+public class CitaServicio implements OperacionesCita{
     private final CitaRepositorio citas;
     private final AgendaRepositorio agendas;
     /** Observer: Spring inyecta aquí todos los beans que implementan ObservadorCita. */
