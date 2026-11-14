@@ -24,9 +24,10 @@ public class ManejadorSoloLectura implements InvocationHandler {
             return metodo.invoke(real, args);
         }
 
-        // 2) ¿Es una operación de lectura? (nombre empieza con listar u obtener)
+        // 2) ¿Es una operación de lectura? (nombre empieza con listar, obtener, contar o buscar)
         String nombre = metodo.getName();
-        boolean esLectura = nombre.startsWith("listar") || nombre.startsWith("obtener");
+        boolean esLectura = nombre.startsWith("listar") || nombre.startsWith("obtener")
+                || nombre.startsWith("contar") || nombre.startsWith("buscar");
 
         // 3) Escritura: se bloquea; nunca llega al servicio real.
         if (!esLectura) {

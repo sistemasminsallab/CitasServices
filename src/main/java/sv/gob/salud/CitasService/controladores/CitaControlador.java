@@ -14,15 +14,15 @@ import org.springframework.web.bind.annotation.RestController;
 import sv.gob.salud.CitasService.dto.AgendaRespuesta;
 import sv.gob.salud.CitasService.dto.AgendarCitaSolicitud;
 import sv.gob.salud.CitasService.dto.CitaRespuesta;
-import sv.gob.salud.CitasService.servicios.CitaServicio;
+import sv.gob.salud.CitasService.servicios.OperacionesCita;
 
 /** Controlador: recibe, delega y responde. Cero reglas de negocio. */
 @RestController
 @RequestMapping("/api")
 public class CitaControlador {
-    private final CitaServicio servicio;
+    private final OperacionesCita servicio;
 
-    public CitaControlador(CitaServicio servicio) {
+    public CitaControlador(OperacionesCita servicio) {
         this.servicio = servicio;
     }
 
