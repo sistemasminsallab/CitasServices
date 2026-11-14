@@ -7,6 +7,7 @@ import java.util.List;
 import sv.gob.salud.CitasService.dto.AgendarCitaSolicitud;
 import sv.gob.salud.CitasService.modelos.entidades.AgendaMedica;
 import sv.gob.salud.CitasService.modelos.entidades.Cita;
+import sv.gob.salud.CitasService.modelos.enums.EstadoCita;
 
 /**
  * Contrato de los casos de uso de citas.
@@ -17,6 +18,15 @@ import sv.gob.salud.CitasService.modelos.entidades.Cita;
  * contrato sobre el que Spring creará sus proxies de AOP en el Módulo 6.
  */
 public interface OperacionesCita {
+
+        // --- Consultas (solo lectura) ---
+    List<Cita> buscarPorEstado(EstadoCita estado);
+
+    List<Cita> citasDeAgenda(Long agendaId);
+
+    int cuposDisponibles(Long agendaId);
+
+    List<Cita> proximasCitas();
 
     List<Cita> listarCitas();
 

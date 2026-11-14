@@ -3,6 +3,7 @@ package sv.gob.salud.CitasService.servicios;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
+import java.util.Comparator;
 
 import org.springframework.stereotype.Service;
 
@@ -30,6 +31,36 @@ public class CitaServicio implements OperacionesCita {
         this.citas = citas;
         this.agendas = agendas;
         this.observadores = observadores;
+    }
+
+        // --- Consultas (solo lectura) ---
+
+    public List<Cita> buscarPorEstado(EstadoCita estado) {
+        return citas.buscarCitas().stream()
+                .filter(cita -> cita.getEstadoCita() == estado)
+                .toList();
+    }
+
+    public List<Cita> citasDeAgenda(Long agendaId) {
+        AgendaMedica agenda = agendas.buscarAgendaPorId(agendaId)
+                .orElseThrow(() -> new CitaNoEncontradaException("No existe la agenda " + agendaId));
+        return agenda.getCitas().stream()
+                .sorted(Comparator.comparing(Cita::getId))
+                .toList();
+    }
+
+    public int cuposDisponibles(Long agendaId) {
+        return agendas.buscarAgendaPorId(agendaId)
+                .orElseThrow(() -> new CitaNoEncontradaException("No existe la agenda " + agendaId))
+                .cuposDisponibles();
+    }
+
+    public List<Cita> proximasCitas() {
+        LocalDate hoy = LocalDate.now();
+        return citas.buscarCitas().stream()
+                .filter(cita -> !cita.getFechaCita().isBefore(hoy))
+                .sorted(Comparator.comparing(Cita::getFechaCita).thenComparing(Cita::getHoraInicio))
+                .toList();
     }
 
     public List<Cita> listarCitas() {
