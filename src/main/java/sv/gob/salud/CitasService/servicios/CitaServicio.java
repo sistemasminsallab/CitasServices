@@ -2,6 +2,7 @@ package sv.gob.salud.CitasService.servicios;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.Comparator;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -77,6 +78,36 @@ public class CitaServicio implements OperacionesCita {
         Cita cita = obtenerCita(id);
         cita.reprogramarCita(fecha, inicio, fin); // mueve el horario (valida no-cancelada y horario)
         return aplicarTransicion(cita, EstadoCita.REPROGRAMADA);
+    }
+
+    // --- Consultas (solo lectura) ---
+
+    public List<Cita> buscarPorEstado(EstadoCita estado) {
+        return citas.buscarCitas().stream()
+                .filter(cita -> cita.getEstadoCita() == estado)
+                .toList();
+    }
+
+    public List<Cita> citasDeAgenda(Long agendaId) {
+        AgendaMedica agenda = agendas.buscarAgendaPorId(agendaId)
+                .orElseThrow(() -> new CitaNoEncontradaException("No existe la agenda " + agendaId));
+        return agenda.getCitas().stream()
+                .sorted(Comparator.comparing(Cita::getId))
+                .toList();
+    }
+
+    public int cuposDisponibles(Long agendaId) {
+        return agendas.buscarAgendaPorId(agendaId)
+                .orElseThrow(() -> new CitaNoEncontradaException("No existe la agenda " + agendaId))
+                .cuposDisponibles();
+    }
+
+    public List<Cita> proximasCitas() {
+        LocalDate hoy = LocalDate.now();
+        return citas.buscarCitas().stream()
+                .filter(cita -> !cita.getFechaCita().isBefore(hoy))
+                .sorted(Comparator.comparing(Cita::getFechaCita).thenComparing(Cita::getHoraInicio))
+                .toList();
     }
 
     /**
