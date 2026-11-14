@@ -8,6 +8,10 @@ import sv.gob.salud.CitasService.dto.AgendarCitaSolicitud;
 import sv.gob.salud.CitasService.modelos.entidades.AgendaMedica;
 import sv.gob.salud.CitasService.modelos.entidades.Cita;
 
+
+import sv.gob.salud.CitasService.modelos.enums.EstadoCita;
+import sv.gob.salud.CitasService.modelos.enums.Prioridad;
+
 /**
  * Contrato de los casos de uso de citas.
  *
@@ -21,6 +25,16 @@ public interface OperacionesCita {
     List<Cita> listarCitas();
 
     Cita obtenerCita(Long id);
+
+    List<Cita> buscarPorEstado(EstadoCita estado);
+
+    List<Cita> buscarPorPrioridad(Prioridad prioridad);
+
+    List<Cita> citasDeAgenda(Long agendaId);
+
+    int cuposDisponibles(Long agendaId);
+
+    List<Cita> proximasCitas();
 
     List<AgendaMedica> listarAgendas();
 
