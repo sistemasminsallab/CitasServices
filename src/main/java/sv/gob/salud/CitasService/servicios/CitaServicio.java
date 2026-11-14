@@ -17,6 +17,7 @@ import sv.gob.salud.CitasService.modelos.excepciones.CitaNoEncontradaException;
 import sv.gob.salud.CitasService.notificaciones.ObservadorCita;
 import sv.gob.salud.CitasService.repositorios.AgendaRepositorio;
 import sv.gob.salud.CitasService.repositorios.CitaRepositorio;
+import java.util.Comparator;
 
 /** Fabricación pura: orquesta casos de uso; las reglas de negocio siguen en el dominio. */
 @Service
@@ -92,5 +93,43 @@ public class CitaServicio implements OperacionesCita {
         cita.cambiarEstadoCita(nuevoEstado);
         observadores.forEach(observador -> observador.alCambiarEstado(cita, nuevoEstado));
         return cita;
+    }
+
+    @Override
+    public List<Cita> buscarPorEstado(EstadoCita estado) {
+        return citas.buscarCitas().stream()
+                .filter(cita -> cita.getEstadoCita() == estado)
+                .toList();
+    }
+
+    public List<Cita> citasDeAgenda(Long agendaId) {
+        AgendaMedica agenda = agendas.buscarAgendaPorId(agendaId)
+                .orElseThrow(() -> new CitaNoEncontradaException("No existe la agenda " + agendaId));
+        return agenda.getCitas().stream()
+                .sorted(Comparator.comparing(Cita::getId))
+                .toList();
+    }
+
+    public int cuposDisponibles(Long agendaId) {
+        return agendas.buscarAgendaPorId(agendaId)
+                .orElseThrow(() -> new CitaNoEncontradaException("No existe la agenda " + agendaId))
+                .cuposDisponibles();
+    }
+
+    public List<Cita> proximasCitas() {
+        LocalDate hoy = LocalDate.now();
+        return citas.buscarCitas().stream()
+                .filter(cita -> !cita.getFechaCita().isBefore(hoy) 
+                        && cita.getEstadoCita() != EstadoCita.CANCELADA
+                        && cita.getEstadoCita() != EstadoCita.NO_ASISTIO
+                        && cita.getEstadoCita() != EstadoCita.ATENDIDA)
+                .sorted(Comparator.comparing(Cita::getFechaCita).thenComparing(Cita::getHoraInicio))
+                .toList();
+    }
+
+    public List<Cita> buscarPorPrioridad(Prioridad prioridad) {
+        return citas.buscarCitas().stream()
+                .filter(cita -> cita.getPrioridad() == prioridad)
+                .toList();
     }
 }

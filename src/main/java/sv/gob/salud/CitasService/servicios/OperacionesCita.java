@@ -7,6 +7,8 @@ import java.util.List;
 import sv.gob.salud.CitasService.dto.AgendarCitaSolicitud;
 import sv.gob.salud.CitasService.modelos.entidades.AgendaMedica;
 import sv.gob.salud.CitasService.modelos.entidades.Cita;
+import sv.gob.salud.CitasService.modelos.enums.EstadoCita;
+import sv.gob.salud.CitasService.modelos.enums.Prioridad;
 
 /**
  * Contrato de los casos de uso de citas.
@@ -35,4 +37,14 @@ public interface OperacionesCita {
     Cita marcarNoAsistio(Long id);
 
     Cita reprogramarCita(Long id, LocalDate fecha, LocalTime inicio, LocalTime fin);
+
+    List<Cita> buscarPorEstado(EstadoCita estado);
+
+    List<Cita> citasDeAgenda(Long agendaId);
+
+    int cuposDisponibles(Long agendaId);
+
+    List<Cita> proximasCitas();
+
+    List<Cita> buscarPorPrioridad(Prioridad prioridad);
 }
