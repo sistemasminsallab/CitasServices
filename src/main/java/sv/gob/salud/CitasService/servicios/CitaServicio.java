@@ -17,6 +17,7 @@ import sv.gob.salud.CitasService.modelos.excepciones.CitaNoEncontradaException;
 import sv.gob.salud.CitasService.notificaciones.ObservadorCita;
 import sv.gob.salud.CitasService.repositorios.AgendaRepositorio;
 import sv.gob.salud.CitasService.repositorios.CitaRepositorio;
+import java.util.Comparator;
 
 /** Fabricación pura: orquesta casos de uso; las reglas de negocio siguen en el dominio. */
 @Service
@@ -92,5 +93,35 @@ public class CitaServicio implements OperacionesCita {
         cita.cambiarEstadoCita(nuevoEstado);
         observadores.forEach(observador -> observador.alCambiarEstado(cita, nuevoEstado));
         return cita;
+    }
+
+    // --- Consultas (solo lectura) ---
+
+    public List<Cita> buscarPorEstado(EstadoCita estado) {
+        return citas.buscarCitas().stream()
+                .filter(cita -> cita.getEstadoCita() == estado)
+                .toList();
+    }
+
+    public List<Cita> citasDeAgenda(Long agendaId) {
+        AgendaMedica agenda = agendas.buscarAgendaPorId(agendaId)
+                .orElseThrow(() -> new CitaNoEncontradaException("No existe la agenda " + agendaId));
+        return agenda.getCitas().stream()
+                .sorted(Comparator.comparing(Cita::getId))
+                .toList();
+    }
+
+    public int cuposDisponibles(Long agendaId) {
+        return agendas.buscarAgendaPorId(agendaId)
+                .orElseThrow(() -> new CitaNoEncontradaException("No existe la agenda " + agendaId))
+                .cuposDisponibles();
+    }
+
+    public List<Cita> proximasCitas() {
+        LocalDate hoy = LocalDate.now();
+        return citas.buscarCitas().stream()
+                .filter(cita -> !cita.getFechaCita().isBefore(hoy))
+                .sorted(Comparator.comparing(Cita::getFechaCita).thenComparing(Cita::getHoraInicio))
+                .toList();
     }
 }
