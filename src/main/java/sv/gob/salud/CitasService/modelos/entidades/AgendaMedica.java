@@ -45,20 +45,20 @@ public class AgendaMedica{
     public RangoHorario getRangoHorario() { return rangoHorario; }
     public int getCupoMaximo() { return cupoMaximo; }
     public boolean isActiva() { return activa; }
-    public Set<Cita> getCitas() { return Set.copyOf(citas); }
+    public synchronized Set<Cita> getCitas() { return Set.copyOf(citas); }
 
-    public int cuposDisponibles() {
+    public synchronized int cuposDisponibles() {
         return cupoMaximo - citas.size();
     }
 
-    public CitaPresencial agendarPresencial(Long id, Expediente expediente, Prioridad prioridad,
+    public synchronized CitaPresencial agendarPresencial(Long id, Expediente expediente, Prioridad prioridad,
             TipoCita tipo, LocalTime inicio, LocalTime fin, String consultorio, Establecimiento establecimiento) {
         CitaPresencial cita = new CitaPresencial(id, this, expediente, siguienteOrden(), EstadoCita.PROGRAMADA,
                 prioridad, tipo, null, fecha, inicio, fin, consultorio, establecimiento, null);
         return registrar(cita);
     }
 
-    public CitaVirtual agendarVirtual(Long id, Expediente expediente, Prioridad prioridad,
+    public synchronized CitaVirtual agendarVirtual(Long id, Expediente expediente, Prioridad prioridad,
             TipoCita tipo, LocalTime inicio, LocalTime fin, String url, String plataforma) {
         CitaVirtual cita = new CitaVirtual(id, this, expediente, siguienteOrden(), EstadoCita.PROGRAMADA,
                 prioridad, tipo, null, fecha, inicio, fin, url, plataforma);
@@ -83,7 +83,9 @@ public class AgendaMedica{
         if (citas.stream().anyMatch(cita::seSolapaCon)) {
             throw new CitaNoDisponibleException("La cita se solapa con otra ya agendada");
         }
-        citas.add(cita);
+         if (!citas.add(cita)) {
+            throw new CitaNoDisponibleException("Ya existe una cita con el id " + cita.getId());
+        }
         return cita;
     }
 }
