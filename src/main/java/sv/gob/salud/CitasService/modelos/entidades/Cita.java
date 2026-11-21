@@ -1,4 +1,5 @@
 package sv.gob.salud.CitasService.modelos.entidades;
+import java.util.Objects;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
@@ -159,4 +160,19 @@ public abstract class Cita {
         if (!inicio.isBefore(fin)) { 
             throw new IllegalArgumentException( "La hora de inicio debe ser anterior a la hora final"); } 
     }
+
+     /** Dos citas son la misma si comparten id (igualdad por contenido, no por referencia). */
+    @Override
+    public boolean equals(Object otro) {
+        if (this == otro) return true;
+        if (!(otro instanceof Cita cita)) return false;
+        return id.equals(cita.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
+
+
 }
