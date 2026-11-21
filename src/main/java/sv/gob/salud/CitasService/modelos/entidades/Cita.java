@@ -1,6 +1,7 @@
 package sv.gob.salud.CitasService.modelos.entidades;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.Objects;
 
 import sv.gob.salud.CitasService.modelos.enums.EstadoCita;
 import sv.gob.salud.CitasService.modelos.enums.Modalidad;
@@ -148,6 +149,19 @@ public abstract class Cita {
 
     public boolean estaCancelada() {
         return estadoCita == EstadoCita.CANCELADA;
+    }
+
+    /** Dos citas son la misma si comparten id (igualdad por contenido, no por referencia). */
+    @Override
+    public boolean equals(Object otro) {
+        if (this == otro) return true;
+        if (!(otro instanceof Cita cita)) return false;
+        return id.equals(cita.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 
     // Validar fecha y horario 
